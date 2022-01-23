@@ -10,7 +10,6 @@ BOARDNAME:=Atheros AR231x/AR5312
 FEATURES:=squashfs low_mem small_flash
 
 KERNEL_PATCHVER:=5.4
-KERNEL_TESTING_PATCHVER:=5.10
 
 define Target/Description
 	Build firmware images for Atheros SoC boards

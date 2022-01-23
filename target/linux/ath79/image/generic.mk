@@ -160,6 +160,33 @@ define Build/wrgg-pad-rootfs
 	$(STAGING_DIR_HOST)/bin/padjffs2 $(IMAGE_ROOTFS) -c 64 >>$@
 endef
 
+define Build/xwrt_csac10-factory
+  -[ -f "$@" ] && \
+  mkdir -p "$@.tmp" && \
+  mv "$@" "$@.tmp/UploadBrush-bin.img" && \
+  binmd5=$$($(MKHASH) md5 "$@.tmp/UploadBrush-bin.img" | head -c32) && \
+  oemmd5=$$(echo -n TB-CSAC10-QCA9563_9886-ROUTE-CSAC10 | $(MKHASH) md5 | head -c32) && \
+  echo -n $${binmd5}$${oemmd5} | $(MKHASH) md5 | head -c32 >"$@.tmp/bin_random_oem.txt" && \
+  echo -n V4.4-201910201745 >"$@.tmp/version.txt" && \
+  $(TAR) -czf $@.tmp.tgz -C "$@.tmp" UploadBrush-bin.img bin_random_oem.txt version.txt && \
+  $(STAGING_DIR_HOST)/bin/openssl aes-256-cbc -md md5 -salt -in $@.tmp.tgz -out "$@" -k QiLunSmartWL && \
+  printf %32s CSAC10 >>"$@" && \
+  rm -rf "$@.tmp"
+endef
+
+define Build/xwrt_csac05-factory
+  -[ -f "$@" ] && \
+  mkdir -p "$@.tmp" && \
+  mv "$@" "$@.tmp/UploadBrush-bin.img" && \
+  binmd5=$$($(MKHASH) md5 "$@.tmp/UploadBrush-bin.img" | head -c32) && \
+  oemmd5=$$(echo -n TB-CSAC05-QCA9563_9886-ROUTE-CSAC05 | $(MKHASH) md5 | head -c32) && \
+  echo -n $${binmd5}$${oemmd5} | $(MKHASH) md5 | head -c32 >"$@.tmp/bin_random_oem.txt" && \
+  echo -n V4.4-201910201745 >"$@.tmp/version.txt" && \
+  $(TAR) -czf $@.tmp.tgz -C "$@.tmp" UploadBrush-bin.img bin_random_oem.txt version.txt && \
+  $(STAGING_DIR_HOST)/bin/openssl aes-256-cbc -md md5 -salt -in $@.tmp.tgz -out "$@" -k QiLunSmartWL && \
+  printf %32s CSAC05 >>"$@" && \
+  rm -rf "$@.tmp"
+endef
 
 define Device/seama
   KERNEL := kernel-bin | append-dtb | relocate-kernel | lzma
@@ -329,19 +356,6 @@ define Device/aruba_ap-105
   DEVICE_PACKAGES := kmod-i2c-gpio kmod-tpm-i2c-atmel
 endef
 TARGET_DEVICES += aruba_ap-105
-
-define Device/asus_rp-ac66
-  SOC := qca9563
-  DEVICE_VENDOR := ASUS
-  DEVICE_MODEL := RP-AC66
-  IMAGE_SIZE := 15488k
-  IMAGES += factory.bin
-  IMAGE/factory.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | \
-	append-rootfs | pad-rootfs
-  DEVICE_PACKAGES := kmod-ath10k-ct-smallbuffers ath10k-firmware-qca988x-ct \
-	rssileds -swconfig
-endef
-TARGET_DEVICES += asus_rp-ac66
 
 define Device/atheros_db120
   $(Device/loader-okli-uimage)
@@ -575,6 +589,7 @@ define Device/comfast_cf-e313ac
   DEVICE_PACKAGES := rssileds kmod-ath10k-ct-smallbuffers \
 	ath10k-firmware-qca9888-ct -swconfig -uboot-envtools
   IMAGE_SIZE := 7936k
+  DEFAULT := n
 endef
 TARGET_DEVICES += comfast_cf-e313ac
 
@@ -928,6 +943,7 @@ define Device/dlink_dir-825-b1
   DEVICE_PACKAGES := kmod-usb-ohci kmod-usb2 kmod-usb-ledtrig-usbport \
 	kmod-leds-reset kmod-owl-loader
   SUPPORTED_DEVICES += dir-825-b1
+  DEFAULT := n
 endef
 TARGET_DEVICES += dlink_dir-825-b1
 
@@ -1525,6 +1541,7 @@ define Device/nec_wf1200cr
   IMAGES += factory.bin
   IMAGE/factory.bin := $$(IMAGE/default) | pad-rootfs -x 64 | seama | \
 	seama-seal | nec-enc ryztfyutcrqqo69d | check-size
+  DEFAULT := n
 endef
 TARGET_DEVICES += nec_wf1200cr
 
@@ -1538,6 +1555,7 @@ define Device/nec_wg1200cr
   IMAGES += factory.bin
   IMAGE/factory.bin := $$(IMAGE/default) | pad-rootfs -x 64 | seama | \
 	seama-seal | nec-enc 9gsiy9nzep452pad | check-size
+  DEFAULT := n
 endef
 TARGET_DEVICES += nec_wg1200cr
 
@@ -1551,6 +1569,7 @@ define Device/nec_wg800hp
 	append-rootfs | pad-rootfs | check-size | \
 	xor-image -p 6A57190601121E4C004C1E1201061957 -x | nec-fw LASER_ATERM
   DEVICE_PACKAGES := kmod-ath10k-ct-smallbuffers ath10k-firmware-qca9887-ct-full-htt
+  DEFAULT := n
 endef
 TARGET_DEVICES += nec_wg800hp
 
@@ -1698,6 +1717,7 @@ define Device/ocedo_koala
   DEVICE_PACKAGES := kmod-ath10k-ct ath10k-firmware-qca988x-ct
   SUPPORTED_DEVICES += koala
   IMAGE_SIZE := 7424k
+  DEFAULT := n
 endef
 TARGET_DEVICES += ocedo_koala
 
@@ -1706,6 +1726,7 @@ define Device/ocedo_raccoon
   DEVICE_VENDOR := Ocedo
   DEVICE_MODEL := Raccoon
   IMAGE_SIZE := 7424k
+  DEFAULT := n
 endef
 TARGET_DEVICES += ocedo_raccoon
 
@@ -1715,6 +1736,7 @@ define Device/ocedo_ursus
   DEVICE_MODEL := Ursus
   DEVICE_PACKAGES := kmod-ath10k-ct ath10k-firmware-qca988x-ct
   IMAGE_SIZE := 7424k
+  DEFAULT := n
 endef
 TARGET_DEVICES += ocedo_ursus
 
@@ -1914,17 +1936,6 @@ define Device/openmesh_om5p
 endef
 TARGET_DEVICES += openmesh_om5p
 
-define Device/openmesh_om5p-ac-v1
-  $(Device/openmesh_common_64k)
-  SOC := qca9558
-  DEVICE_MODEL := OM5P-AC
-  DEVICE_VARIANT := v1
-  DEVICE_PACKAGES += kmod-ath10k-ct ath10k-firmware-qca988x-ct
-  OPENMESH_CE_TYPE := OM5PAC
-  SUPPORTED_DEVICES += om5p-ac
-endef
-TARGET_DEVICES += openmesh_om5p-ac-v1
-
 define Device/openmesh_om5p-ac-v2
   SOC := qca9558
   DEVICE_VENDOR := OpenMesh
@@ -1933,17 +1944,9 @@ define Device/openmesh_om5p-ac-v2
   DEVICE_PACKAGES := kmod-ath10k-ct ath10k-firmware-qca988x-ct om-watchdog
   IMAGE_SIZE := 7808k
   SUPPORTED_DEVICES += om5p-acv2
+  DEFAULT := n
 endef
 TARGET_DEVICES += openmesh_om5p-ac-v2
-
-define Device/openmesh_om5p-an
-  $(Device/openmesh_common_64k)
-  SOC := ar9344
-  DEVICE_MODEL := OM5P-AN
-  OPENMESH_CE_TYPE := OM5P
-  SUPPORTED_DEVICES += om5p-an
-endef
-TARGET_DEVICES += openmesh_om5p-an
 
 define Device/pcs_cap324
   SOC := ar9344
@@ -2106,6 +2109,7 @@ define Device/qxwlan_e1700ac-v2-8m
   $(Device/qxwlan_e1700ac-v2)
   DEVICE_VARIANT := v2 (8M)
   IMAGE_SIZE := 7744k
+  DEFAULT := n
 endef
 TARGET_DEVICES += qxwlan_e1700ac-v2-8m
 
@@ -2172,6 +2176,7 @@ define Device/qxwlan_e600gac-v2-8m
   $(Device/qxwlan_e600gac-v2)
   DEVICE_VARIANT := v2 (8M)
   IMAGE_SIZE := 7744k
+  DEFAULT := n
 endef
 TARGET_DEVICES += qxwlan_e600gac-v2-8m
 
@@ -2263,6 +2268,7 @@ define Device/sitecom_wlr-7100
 	append-rootfs | pad-rootfs | check-size | \
 	senao-header -r 0x222 -p 0x53 -t 2
   IMAGE_SIZE := 7488k
+  DEFAULT := n
 endef
 TARGET_DEVICES += sitecom_wlr-7100
 
@@ -2404,6 +2410,7 @@ define Device/wd_mynet-wifi-rangeextender
   IMAGE/sysupgrade.bin := append-rootfs | pad-rootfs | cybertan-trx | \
 	addpattern | append-metadata
   SUPPORTED_DEVICES += mynet-rext
+  DEFAULT := n
 endef
 TARGET_DEVICES += wd_mynet-wifi-rangeextender
 
@@ -2433,6 +2440,23 @@ define Device/xiaomi_mi-router-4q
   IMAGE_SIZE := 14336k
 endef
 TARGET_DEVICES += xiaomi_mi-router-4q
+
+define Device/xwrt_csac
+  $(Device/loader-okli-uimage)
+  SOC := qca9563
+  DEVICE_VENDOR := XWRT
+  DEVICE_MODEL := CSAC
+  IMAGE_SIZE := 14464k
+  LOADER_FLASH_OFFS := 0x60000
+  KERNEL := kernel-bin | append-dtb | lzma | uImage lzma -M 0x4f4b4c49
+  IMAGES += breed-factory.bin factory-10.bin factory-05.bin
+  IMAGE/breed-factory.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-rootfs | pad-rootfs | \
+			     prepad-okli-kernel $(1) | pad-to 14528k | append-okli-kernel $(1)
+  IMAGE/factory-10.bin := $$(IMAGE/breed-factory.bin) | xwrt_csac10-factory $(1)
+  IMAGE/factory-05.bin := $$(IMAGE/breed-factory.bin) | xwrt_csac05-factory $(1)
+  DEVICE_PACKAGES := kmod-leds-reset kmod-ath10k-ct ath10k-firmware-qca9888-ct kmod-usb-core kmod-usb2
+endef
+TARGET_DEVICES += xwrt_csac
 
 define Device/yuncore_a770
   SOC := qca9531

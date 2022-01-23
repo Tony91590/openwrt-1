@@ -68,7 +68,7 @@ _procd_call() {
 }
 
 _procd_wrapper() {
-	#procd_lock
+	procd_lock
 	while [ -n "$1" ]; do
 		eval "$1() { _procd_call _$1 \"\$@\"; }"
 		shift
@@ -198,6 +198,7 @@ _procd_add_jail() {
 		netns)	json_add_boolean "netns" "1";;
 		userns)	json_add_boolean "userns" "1";;
 		cgroupsns)	json_add_boolean "cgroupsns" "1";;
+		console)	json_add_boolean "console" "1";;
 		esac
 	done
 	json_add_object "mount"

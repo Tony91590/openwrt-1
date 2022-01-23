@@ -87,7 +87,7 @@ ppp_generic_init_config() {
 ppp_generic_setup() {
 	local config="$1"; shift
 	local localip
-	
+
 	json_get_vars ipv6 ip6table demand keepalive keepalive_adaptive username password pppd_options pppname unnumbered persist maxfail holdoff peerdns
 
 	if [ "$ipv6" = 0 ]; then
@@ -231,13 +231,14 @@ proto_pppoe_setup() {
 	json_get_var padi_attempts padi_attempts
 	json_get_var padi_timeout padi_timeout
 
-	#By 蝈蝈：并发拨号同步的前期准备
+#By 蝈蝈：并发拨号同步的前期准备
 	syncppp_option=""
-	[ "$(uci get syncdial.config.enabled)" == "1" ] && {
-		ppp_if_cnt=$(cat /etc/config/network | grep -c "proto 'pppoe'")
+	[ "$(uci get syncdial.config.enabled)" -eq "1" ] && {
+		ppp_if_cnt=$(uci show network | grep -c "\.proto=\'pppoe\'$")
 		syncppp_option="syncppp $ppp_if_cnt"
 		shellsync $ppp_if_cnt 10
 	}
+
 	ppp_generic_setup "$config" \
 		$syncppp_option \
 		plugin pppoe.so \

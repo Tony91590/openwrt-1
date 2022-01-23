@@ -477,7 +477,7 @@ $(eval $(call KernelPackage,usb-dwc3))
 
 define KernelPackage/usb-dwc3-qcom
   TITLE:=DWC3 Qualcomm USB driver
-  DEPENDS:=@(TARGET_ipq40xx||TARGET_ipq806x) +kmod-usb-dwc3
+  DEPENDS:=@(TARGET_ipq40xx||TARGET_ipq806x||TARGET_ipq807x) +kmod-usb-dwc3
   KCONFIG:= CONFIG_USB_DWC3_QCOM
   FILES:= $(LINUX_DIR)/drivers/usb/dwc3/dwc3-qcom.ko
   AUTOLOAD:=$(call AutoLoad,53,dwc3-qcom,1)
@@ -1138,9 +1138,11 @@ $(eval $(call KernelPackage,usb-net-aqc111))
 
 define KernelPackage/usb-net-asix
   TITLE:=Kernel module for USB-to-Ethernet Asix convertors
-  DEPENDS:=+kmod-libphy
+  DEPENDS:=+kmod-libphy +LINUX_5_15:kmod-mdio-devres
   KCONFIG:=CONFIG_USB_NET_AX8817X
-  FILES:=$(LINUX_DIR)/drivers/$(USBNET_DIR)/asix.ko
+  FILES:= \
+	$(LINUX_DIR)/drivers/$(USBNET_DIR)/asix.ko \
+	$(LINUX_DIR)/net/core/selftests.ko@ge5.13
   AUTOLOAD:=$(call AutoProbe,asix)
   $(call AddDepends/usb-net)
 endef
@@ -1199,23 +1201,6 @@ define KernelPackage/usb-net-kaweth/description
 endef
 
 $(eval $(call KernelPackage,usb-net-kaweth))
-
-
-define KernelPackage/usb-net-lan78xx
-  TITLE:=USB-To-Ethernet Microchip LAN78XX convertors
-  DEPENDS:=+kmod-fixed-phy +kmod-phy-microchip
-  KCONFIG:=CONFIG_USB_LAN78XX
-  FILES:=$(LINUX_DIR)/drivers/$(USBNET_DIR)/lan78xx.ko
-  AUTOLOAD:=$(call AutoProbe,lan78xx)
-  $(call AddDepends/usb-net)
-endef
-
-define KernelPackage/usb-net-lan78xx/description
- Kernel module for Microchip LAN78XX based USB 2 & USB 3
- 10/100/1000 Ethernet adapters.
-endef
-
-$(eval $(call KernelPackage,usb-net-lan78xx))
 
 
 define KernelPackage/usb-net-pegasus
@@ -1712,8 +1697,7 @@ define KernelPackage/usb3
 	+TARGET_bcm53xx:kmod-usb-bcma \
 	+TARGET_bcm53xx:kmod-phy-bcm-ns-usb3 \
 	+TARGET_ramips_mt7621:kmod-usb-xhci-mtk \
-	+(TARGET_apm821xx_nand&&LINUX_5_10):kmod-usb-xhci-pci-renesas \
-	+TARGET_mvebu_cortexa9:kmod-usb-xhci-pci-renesas
+	+(TARGET_apm821xx_nand&&LINUX_5_10):kmod-usb-xhci-pci-renesas
   KCONFIG:= \
 	CONFIG_USB_PCI=y \
 	CONFIG_USB_XHCI_PCI \

@@ -526,20 +526,6 @@ define Device/hnet_c108
 endef
 TARGET_DEVICES += hnet_c108
 
-define Device/humax_e2
-  SOC := mt7620a
-  IMAGE_SIZE := 7744k
-  DEVICE_VENDOR := HUMAX
-  DEVICE_MODEL := E2
-  DEVICE_ALT0_VENDOR := HUMAX
-  DEVICE_ALT0_MODEL := QUANTUM E2
-  IMAGE/sysupgrade.bin := append-kernel | append-rootfs | \
-	edimax-header -s CSYS -m RN75 -f 0x70000 -S 0x01100000 | pad-rootfs | \
-	check-size | append-metadata
-  DEVICE_PACKAGES := kmod-mt76x0e
-endef
-TARGET_DEVICES += humax_e2
-
 define Device/sunvalley_filehub_common
   SOC := mt7620n
   IMAGE_SIZE := 6144k
@@ -572,6 +558,7 @@ define Device/iodata_wn-ac1167gr
   IMAGE/factory.bin := $$(sysupgrade_bin) | check-size | \
 	elx-header 01040016 8844A2D168B45A2D
   DEVICE_PACKAGES := kmod-mt76x2
+  DEFAULT := n
 endef
 TARGET_DEVICES += iodata_wn-ac1167gr
 
@@ -584,6 +571,7 @@ define Device/iodata_wn-ac733gr3
   IMAGE/factory.bin := $$(sysupgrade_bin) | check-size | \
 	elx-header 01040006 8844A2D168B45A2D
   DEVICE_PACKAGES := kmod-mt76x0e kmod-switch-rtl8367b
+  DEFAULT := n
 endef
 TARGET_DEVICES += iodata_wn-ac733gr3
 
@@ -1173,17 +1161,6 @@ define Device/wavlink_wl-wn579x3
   DEVICE_PACKAGES := kmod-mt76x2 kmod-phy-realtek
 endef
 TARGET_DEVICES += wavlink_wl-wn579x3
-
-define Device/wevo_air-duo
-  SOC := mt7620a
-  IMAGE_SIZE := 15040k
-  UIMAGE_NAME := AIR DUO(0.0.0)
-  KERNEL_INITRAMFS_SUFFIX := .upload
-  DEVICE_VENDOR := WeVO
-  DEVICE_MODEL := AIR DUO
-  DEVICE_PACKAGES := kmod-mt76x2 kmod-usb2 kmod-usb-ohci kmod-usb-storage-uas
-endef
-TARGET_DEVICES += wevo_air-duo
 
 define Device/wrtnode_wrtnode
   SOC := mt7620n

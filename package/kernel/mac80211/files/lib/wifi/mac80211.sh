@@ -64,7 +64,6 @@ __get_band_defaults() {
 BEGIN {
         bands = ""
 }
-
 ($1 == "Band" || $1 == "") && band {
         if (channel) {
 		mode="NOHT"
@@ -78,7 +77,6 @@ BEGIN {
         }
         band=""
 }
-
 $1 == "Band" {
         band = $2
         channel = ""
@@ -86,23 +84,18 @@ $1 == "Band" {
 	ht = ""
 	he = ""
 }
-
 $0 ~ "Capabilities:" {
 	ht=1
 }
-
 $0 ~ "VHT Capabilities" {
 	vht=1
 }
-
 $0 ~ "HE Iftypes" {
 	he=1
 }
-
 $1 == "*" && $3 == "MHz" && $0 !~ /disabled/ && band && !channel {
         channel = $4
 }
-
 END {
         print bands
 }'
@@ -166,9 +159,6 @@ detect_mac80211() {
 		else
 			dev_id="set wireless.radio${devidx}.macaddr=$(cat /sys/class/ieee80211/${dev}/macaddress)"
 		fi
-		
-		ssid="OpenWrt"
-		[ "$mode_band" = "5g" ] && ssid="${ssid}_5G"
 
 		uci -q batch <<-EOF
 			set wireless.radio${devidx}=wifi-device
@@ -179,13 +169,15 @@ detect_mac80211() {
 			set wireless.radio${devidx}.htmode=$htmode
 			set wireless.radio${devidx}.disabled=0
 			set wireless.radio${devidx}.country=US
-
+			
 			set wireless.default_radio${devidx}=wifi-iface
 			set wireless.default_radio${devidx}.device=radio${devidx}
 			set wireless.default_radio${devidx}.network=lan
 			set wireless.default_radio${devidx}.mode=ap
-			set wireless.default_radio${devidx}.ssid=${ssid}
-			set wireless.default_radio${devidx}.encryption=none
+            		set wireless.default_radio0.ssid=OpenWrt_2.4G
+            		set wireless.default_radio1.ssid=OpenWrt_5G	
+			set wireless.default_radio${devidx}.encryption=sae-mixed
+                        set wireless.default_radio${devidx}.key=1234567890
 EOF
 		uci -q commit wireless
 

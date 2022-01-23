@@ -125,6 +125,7 @@ define Device/elecom_wrc-1167fs
 	xor-image -p 29944A25 -x | elecom-header 00228000 | \
 	elecom-product-header WRC-1167FS
   DEVICE_PACKAGES := kmod-mt76x2
+  DEFAULT := n
 endef
 TARGET_DEVICES += elecom_wrc-1167fs
 
@@ -178,15 +179,6 @@ define Device/hilink_hlk-7688a
 endef
 TARGET_DEVICES += hilink_hlk-7688a
 
-define Device/hiwifi_hc5611
-  IMAGE_SIZE := 15808k
-  DEVICE_VENDOR := HiWiFi
-  DEVICE_MODEL := HC5611
-  DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci kmod-usb-ledtrig-usbport
-  SUPPORTED_DEVICES += hc5611
-endef
-TARGET_DEVICES += hiwifi_hc5611
-
 define Device/hiwifi_hc5661a
   IMAGE_SIZE := 15808k
   DEVICE_VENDOR := HiWiFi
@@ -228,26 +220,6 @@ define Device/iptime_a604m
   DEVICE_PACKAGES := kmod-mt76x2
 endef
 TARGET_DEVICES += iptime_a604m
-
-define Device/joowin_jw-wr758ac
-  IMAGE_SIZE := 7872k
-  DEVICE_VENDOR := Joowin
-  DEVICE_MODEL := WR758AC
-endef
-
-define Device/joowin_jw-wr758ac-v1
-  $(Device/joowin_jw-wr758ac)
-  DEVICE_PACKAGES := kmod-mt76x2
-  DEVICE_VARIANT := V1
-endef
-TARGET_DEVICES += joowin_jw-wr758ac-v1
-
-define Device/joowin_jw-wr758ac-v2
-  $(Device/joowin_jw-wr758ac)
-  DEVICE_PACKAGES := kmod-mt7615e kmod-mt7663-firmware-ap
-  DEVICE_VARIANT := V2
-endef
-TARGET_DEVICES += joowin_jw-wr758ac-v2
 
 define Device/jotale_js76x8
   DEVICE_VENDOR := Jotale

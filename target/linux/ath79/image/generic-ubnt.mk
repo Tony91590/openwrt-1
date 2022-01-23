@@ -103,7 +103,6 @@ define Device/ubnt-xm
   IMAGE_SIZE := 7448k
   UBNT_BOARD := XM
   UBNT_CHIP := ar7240
-  UBNT_REVISION := 42.$(UBNT_REVISION)
   UBNT_TYPE := XM
   UBNT_VERSION := 6.0.0
   KERNEL := kernel-bin | append-dtb | relocate-kernel | lzma | uImage lzma

@@ -14,7 +14,6 @@ menu "Target Images"
 			prompt "Compression"
 			default TARGET_INITRAMFS_COMPRESSION_LZMA if TARGET_apm821xx
 			default TARGET_INITRAMFS_COMPRESSION_LZMA if TARGET_ath79_mikrotik
-			default TARGET_INITRAMFS_COMPRESSION_LZMA if TARGET_ipq40xx
 			default TARGET_INITRAMFS_COMPRESSION_LZMA if TARGET_lantiq
 			default TARGET_INITRAMFS_COMPRESSION_LZMA if TARGET_mpc85xx
 			default TARGET_INITRAMFS_COMPRESSION_LZMA if TARGET_ramips
@@ -85,7 +84,7 @@ menu "Target Images"
 
 	config TARGET_ROOTFS_TARGZ
 		bool "tar.gz"
-		default n if USES_TARGZ
+		default y if USES_TARGZ
 		help
 		  Build a compressed tar archive of the root filesystem.
 
@@ -93,7 +92,7 @@ menu "Target Images"
 
 	menuconfig TARGET_ROOTFS_EXT4FS
 		bool "ext4"
-		default n if USES_EXT4
+		default y if USES_EXT4
 		help
 		  Build an ext4 root filesystem.
 
@@ -244,14 +243,14 @@ menu "Target Images"
 	config GRUB_TIMEOUT
 		string "Seconds to wait before booting the default entry"
 		depends on GRUB_IMAGES || GRUB_EFI_IMAGES
-		default "0"
+		default "3"
 		help
 		  If you don't know, 5 seconds is a reasonable default.
 
 	config GRUB_TITLE
 		string "Title for the menu entry in GRUB"
 		depends on GRUB_IMAGES || GRUB_EFI_IMAGES
-		default "OpenWrt"
+		default "ImmortalWrt"
 		help
 		  This is the title of the GRUB menu entry.
 		  If unspecified, it defaults to OpenWrt.

@@ -57,10 +57,6 @@ define Build/append-rutx-metadata
 		}' | fwtool -I - $@
 endef
 
-define Build/copy-file
-	cat "$(1)" > "$@"
-endef
-
 define Build/mkmylofw_32m
 	$(eval device_id=$(word 1,$(1)))
 	$(eval revision=$(word 2,$(1)))
@@ -200,40 +196,10 @@ define Device/asus_map-ac2200
 endef
 TARGET_DEVICES += asus_map-ac2200
 
-# WARNING: this is an initramfs image that gets you half of the way there
-#          you need to delete the jffs2 ubi volume and sysupgrade to the final image
-# to get a "trx" you can flash via web UI for ac42u/ac58u:
-# - change call Device/FitImageLzma to Device/FitImage
-# - add the following below UIMAGE_NAME
-#   UIMAGE_MAGIC := 0x27051956
-#   IMAGES += factory.trx
-#   IMAGE/factory.trx := copy-file $(KDIR)/tmp/$$(KERNEL_INITRAMFS_IMAGE) | uImage none
-define Device/asus_rt-ac42u
-	$(call Device/FitImageLzma)
-	DEVICE_VENDOR := ASUS
-	DEVICE_MODEL := RT-AC42U
-	DEVICE_ALT0_VENDOR := ASUS
-	DEVICE_ALT0_MODEL := RT-ACRH17
-	SOC := qcom-ipq4019
-	BLOCKSIZE := 128k
-	PAGESIZE := 2048
-	DTB_SIZE := 65536
-	IMAGE_SIZE := 20439364
-	FILESYSTEMS := squashfs
-#	RT-AC82U is nowhere to be found online
-#	Rather, this device is a/k/a RT-AC42U
-#	But we'll go with what the vendor firmware has...
-	UIMAGE_NAME:=$(shell echo -e '\03\01\01\01RT-AC82U')
-	DEVICE_PACKAGES := ath10k-firmware-qca9984-ct ipq-wifi-asus_rt-ac42u kmod-usb-ledtrig-usbport
-endef
-TARGET_DEVICES += asus_rt-ac42u
-
 define Device/asus_rt-ac58u
 	$(call Device/FitImageLzma)
 	DEVICE_VENDOR := ASUS
 	DEVICE_MODEL := RT-AC58U
-	DEVICE_ALT0_VENDOR := ASUS
-	DEVICE_ALT0_MODEL := RT-ACRH13
 	SOC := qcom-ipq4018
 	BLOCKSIZE := 128k
 	PAGESIZE := 2048
@@ -250,24 +216,6 @@ define Device/asus_rt-ac58u
 		kmod-usb-ledtrig-usbport
 endef
 TARGET_DEVICES += asus_rt-ac58u
-
-define Device/asus_rt-acrh17
-	$(call Device/FitImageLzma)
-	DEVICE_VENDOR := ASUS
-	DEVICE_MODEL := RT-ACRH17
-	SOC := qcom-ipq4019
-	BLOCKSIZE := 128k
-	PAGESIZE := 2048
-	DTB_SIZE := 65536
-	IMAGE_SIZE := 20439364
-	FILESYSTEMS := squashfs
-	UIMAGE_NAME:=$(shell echo -e '\03\01\01\01RT-AC82U')
-	KERNEL_INITRAMFS := $$(KERNEL) | uImage none
-	KERNEL_INITRAMFS_SUFFIX := -factory.trx
-	IMAGES := sysupgrade.bin
-	DEVICE_PACKAGES := ath10k-firmware-qca9984-ct ipq-wifi-asus_rt-acrh17 kmod-usb-ledtrig-usbport
-endef
-TARGET_DEVICES += asus_rt-acrh17
 
 define Device/avm_fritzbox-4040
 	$(call Device/FitImageLzma)
@@ -345,34 +293,6 @@ define Device/cellc_rtl30vw
 	DEVICE_PACKAGES := kmod-usb-net-qmi-wwan kmod-usb-serial-option uqmi ipq-wifi-cellc_rtl30vw
 endef
 TARGET_DEVICES += cellc_rtl30vw
-
-define Device/century_wr142ac
-	$(call Device/FitzImage)
-	DEVICE_VENDOR := Century
-	DEVICE_MODEL := WR142AC
-	SOC := qcom-ipq4019
-	KERNEL_SIZE := 4096k
-	IMAGE_SIZE := 31232k
-	IMAGES += factory.bin
-	IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | append-metadata
-	IMAGE/factory.bin := qsdk-ipq-factory-nor | check-size
-	DEVICE_PACKAGES := ipq-wifi-century_wr142ac kmod-usb-ledtrig-usbport
-endef
-TARGET_DEVICES += century_wr142ac
-
-define Device/century_wr142ac-nand
-	$(call Device/FitzImage)
-	$(call Device/UbiFit)
-	DEVICE_VENDOR := Century
-	DEVICE_MODEL := WR142AC
-	DEVICE_VARIANT := NAND
-	SOC := qcom-ipq4019
-	DEVICE_DTS_CONFIG := config@10
-	BLOCKSIZE := 128k
-	PAGESIZE := 2048
-	DEVICE_PACKAGES := ipq-wifi-century_wr142ac kmod-usb-ledtrig-usbport
-endef
-TARGET_DEVICES += century_wr142ac-nand
 
 define Device/cilab_meshpoint-one
 	$(call Device/8dev_jalapeno-common)

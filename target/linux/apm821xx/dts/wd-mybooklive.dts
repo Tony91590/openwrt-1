@@ -123,11 +123,9 @@
 	usbpwr: usb-regulator {
 		compatible = "regulator-fixed";
 		regulator-name = "Power USB Core";
-		gpios = <&GPIO1 2 GPIO_ACTIVE_HIGH>;
+		gpios = <&GPIO1 2 GPIO_ACTIVE_LOW>;
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
-		regulator-boot-on; /* uboot sets this */
-		enable-active-high;
 	};
 
 	sata1pwr: sata1-regulator {
