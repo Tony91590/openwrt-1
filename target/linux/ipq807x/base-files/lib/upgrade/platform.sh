@@ -10,11 +10,6 @@ platform_check_image() {
 
 platform_do_upgrade() {
 	case "$(board_name)" in
-	qnap,301w)
-		kernelname="0:HLOS"
-		rootfsname="rootfs"
-		mmc_do_upgrade "$1"
-		;;
 	redmi,ax6|\
 	xiaomi,ax3600|\
 	xiaomi,ax9000)
@@ -44,6 +39,7 @@ platform_do_upgrade() {
 		nand_do_upgrade "$1"
 		;;
 	zte,mf269)
+		CI_UBIPART="rootfs"
 		nand_do_upgrade "$1"
 		;;
 	*)
