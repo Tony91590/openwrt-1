@@ -49,9 +49,9 @@ DEFAULT_PACKAGES.router:=\
 	UA2F \
 	luci-newapi block-mount coremark kmod-nf-nathelper kmod-nf-nathelper-extra kmod-ipt-raw kmod-tun \
 	default-settings luci-app-upnp luci-app-autoreboot \
-	luci-app-filetransfer luci-app-easymesh luci-app-arpbind \
+	luci-app-filetransfer luci-app-easymesh \
 	luci-app-turboacc luci-app-ramfree \
-	luci-app-advanced luci-app-ttyd 
+	luci-app-ttyd 
 
 ifneq ($(DUMP),)
   all: dumpinfo
