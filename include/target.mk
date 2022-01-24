@@ -51,7 +51,7 @@ DEFAULT_PACKAGES.router:=\
 	default-settings luci-app-upnp luci-app-autoreboot \
 	luci-app-filetransfer luci-app-easymesh \
 	luci-app-turboacc luci-app-ramfree \
-	luci-app-ttyd 
+	luci-app-cpufreq luci-app-ttyd 
 
 ifneq ($(DUMP),)
   all: dumpinfo
