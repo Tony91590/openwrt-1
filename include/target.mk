@@ -46,12 +46,11 @@ DEFAULT_PACKAGES.router:=\
 	iptables \
 	ppp \
 	ppp-mod-pppoe \
-	UA2F \
-	luci-newapi block-mount coremark kmod-nf-nathelper kmod-nf-nathelper-extra kmod-ipt-raw kmod-tun \
-	default-settings luci-app-upnp luci-app-autoreboot \
-	luci-app-filetransfer luci-app-easymesh \
-	luci-app-turboacc luci-app-ramfree \
-	luci-app-cpufreq luci-app-ttyd 
+	luci-newapi block-mount coremark kmod-nf-nathelper kmod-nf-nathelper-extra kmod-ipt-raw \
+	default-settings luci luci-app-upnp luci-app-autoreboot \
+	luci-app-filetransfer \
+	luci-app-ramfree luci-app-cpufreq \
+	luci-app-turboacc 
 
 ifneq ($(DUMP),)
   all: dumpinfo

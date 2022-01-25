@@ -1,119 +1,139 @@
-编译命令如下:
--
-1. 首先装好 Ubuntu 64bit，推荐  Ubuntu  18 LTS x64
+<img src="https://avatars.githubusercontent.com/u/53193414?s=200&v=4" alt="logo" width="200" height="200" align="right">
 
-2. 命令行输入 `sudo apt-get update` ，然后输入
-`
-sudo apt-get -y install build-essential asciidoc binutils bzip2 curl gawk gettext git libncurses5-dev libz-dev patch python3.5 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf
-`
+# Project ImmortalWrt
 
-3. `git clone -b main --single-branch https://github.com/Lienol/openwrt openwrt` 命令下载好源代码，然后 `cd openwrt` 进入目录
+ImmortalWrt is a fork of [OpenWrt](https://openwrt.org), with more packages ported, more devices supported, better performance, and special optimizations for mainland China users.<br/>
+Compared the official one, we allow to use hacks or non-upstreamable patches / modifications to achieve our purpose. Source from anywhere.
 
-4. ```bash
-   ./scripts/feeds clean
-   ./scripts/feeds update -a
-   ./scripts/feeds install -a
-   make menuconfig
-   ```
-
-5. `make -j8 download V=s` 下载dl库（国内请尽量全局科学上网）
-
-
-6. 输入 `make -j1 V=s` （-j1 后面是线程数。第一次编译推荐用单线程）即可开始编译你要的固件了。
-
-6. 编译完成后输出路径：openwrt/bin/targets
-
-你可以自由使用，但源码编译二次发布请注明我的 GitHub 仓库链接。谢谢合作！
- 
- -----------------------------------------------------
-
-![OpenWrt logo](include/logo.png)
-
-OpenWrt Project is a Linux operating system targeting embedded devices. Instead
-of trying to create a single, static firmware, OpenWrt provides a fully
-writable filesystem with package management. This frees you from the
-application selection and configuration provided by the vendor and allows you
-to customize the device through the use of packages to suit any application.
-For developers, OpenWrt is the framework to build an application without having
-to build a complete firmware around it; for users this means the ability for
-full customization, to use the device in ways never envisioned.
-
-Sunshine!
+Default login address: http://192.168.1.1 or http://immortalwrt.lan, username: __root__, password: __password__.
 
 ## Development
+To build your own firmware you need a GNU/Linux, BSD or MacOSX system (case sensitive filesystem required). Cygwin is unsupported because of the lack of a case sensitive file system.<br/>
 
-To build your own firmware you need a GNU/Linux, BSD or MacOSX system (case
-sensitive filesystem required). Cygwin is unsupported because of the lack of a
-case sensitive file system.
+  ### Requirements
+  To build with this project, Ubuntu 18.04 LTS is preferred. And you need use the CPU based on AMD64 architecture, with at least 4GB RAM and 25 GB available disk space. Make sure the __Internet__ is accessible.
 
-### Requirements
+  The following tools are needed to compile ImmortalWrt, the package names vary between distributions.
 
-You need the following tools to compile OpenWrt, the package names vary between
-distributions. A complete list with distribution specific packages is found in
-the [Build System Setup](https://openwrt.org/docs/guide-developer/build-system/install-buildsystem)
-documentation.
+  - Here is an example for Ubuntu users:<br/>
+    - Method 1:
+      <details>
+        <summary>Setup dependencies via APT</summary>
 
-```
-binutils bzip2 diff find flex gawk gcc-6+ getopt grep install libc-dev libz-dev
-make4.1+ perl python3.6+ rsync subversion unzip which
-```
+        ```bash
+        sudo apt update -y
+        sudo apt full-upgrade -y
+        sudo apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
+          bzip2 ccache cmake cpio curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib g++-multilib \
+          git gperf haveged help2man intltool lib32gcc1 libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev \
+          libmpc-dev libmpfr-dev libncurses5-dev libncursesw5 libncursesw5-dev libreadline-dev libssl-dev libtool lrzsz \
+          mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python2.7 python3 python3-pip python3-ply \
+          python-docutils qemu-utils re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip \
+          vim wget xmlto xxd zlib1g-dev
+        ```
+      </details>
+    - Method 2:
+      ```bash
+      curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh | sudo bash
+      ```
 
-### Quickstart
+  - You can also download and use prebuilt container directly:<br/>
+    See #Quickstart - Build image via OPDE
 
-1. Run `./scripts/feeds update -a` to obtain all the latest package definitions
-   defined in feeds.conf / feeds.conf.default
+  Note:
+  - For the for love of god please do __not__ use ROOT user to build your image.
+  - Using CPUs based on other architectures should be fine to compile ImmortalWrt, but more hacks are needed - No warranty at all.
+  - You must __not__ have spaces in PATH or in the work folders on the drive.
+  - If you're using Windows Subsystem for Linux (or WSL), removing Windows folders from PATH is required, please see [Build system setup WSL](https://openwrt.org/docs/guide-developer/build-system/wsl) documentation.
+  - Using macOS as the host build OS is __not__ recommended. No warranty at all. You can get tips from [Build system setup macOS](https://openwrt.org/docs/guide-developer/build-system/buildroot.exigence.macosx) documentation.
+    - As you're building ImmortalWrt, patching or disabling UPX tools is also required.
+  - For more details, please see [Build system setup](https://openwrt.org/docs/guide-developer/build-system/install-buildsystem) documentation.
 
-2. Run `./scripts/feeds install -a` to install symlinks for all obtained
-   packages into package/feeds/
+  ### Quickstart
+  - Method 1:
+    1. Run `git clone -b <branch> --single-branch https://github.com/immortalwrt/immortalwrt` to clone the source code.
+    2. Run `cd immortalwrt` to enter source directory.
+    3. Run `./scripts/feeds update -a` to obtain all the latest package definitions defined in feeds.conf / feeds.conf.default
+    4. Run `./scripts/feeds install -a` to install symlinks for all obtained packages into package/feeds/
+    5. Run `make menuconfig` to select your preferred configuration for the toolchain, target system & firmware packages.
+    6. Run `make` to build your firmware. This will download all sources, build the cross-compile toolchain and then cross-compile the GNU/Linux kernel & all chosen applications for your target system.
 
-3. Run `make menuconfig` to select your preferred configuration for the
-   toolchain, target system & firmware packages.
+  - Method 2:
+    <details>
+      <summary>Build image via OPDE</summary>
 
-4. Run `make` to build your firmware. This will download all sources, build the
-   cross-compile toolchain and then cross-compile the GNU/Linux kernel & all chosen
-   applications for your target system.
+      - Pull the prebuilt container:
+        ```bash
+        docker pull immortalwrt/opde:base
+        # docker run --rm -it immortalwrt/opde:base
+        ```
 
-### Related Repositories
+      - For Linux User:
+        ```bash
+        git clone -b <branch> --single-branch https://github.com/immortalwrt/immortalwrt && cd immortalwrt
+        docker run --rm -it \
+            -v $PWD:/openwrt \
+          immortalwrt/opde:base zsh
+        ./scripts/feeds update -a && ./scripts/feeds install -a
+        ```
 
-The main repository uses multiple sub-repositories to manage packages of
-different categories. All packages are installed via the OpenWrt package
-manager called `opkg`. If you're looking to develop the web interface or port
-packages to OpenWrt, please find the fitting repository below.
+      - For Windows User:
+        1. Create a volume 'immortalwrt' and clone ImmortalWrt source into volume.
+          ```bash
+          docker run --rm -it -v immortalwrt:/openwrt immortalwrt/opde:base git clone -b <branch> --single-branch https://github.com/immortalwrt/immortalwrt .
+          ```
+        2. Enter docker container and update feeds.
+          ```bash
+          docker run --rm -it -v immortalwrt:/openwrt immortalwrt/opde:base
+          ./scripts/feeds update -a && ./scripts/feeds install -a
+          ```
+        - Tips: ImmortalWrt source code can not be cloned into NTFS filesystem (symbol link problem during compilation), but docker volume is fine.
 
-* [LuCI Web Interface](https://github.com/openwrt/luci): Modern and modular
-  interface to control the device via a web browser.
+      - Proxy Support:
+        ```bash
+        docker run --rm -it \
+          -e   all_proxy=http://example.com:1081 \
+          -e  http_proxy=http://example.com:1081 \
+          -e https_proxy=http://example.com:1081 \
+          -e   ALL_PROXY=http://example.com:1081 \
+          -e  HTTP_PROXY=http://example.com:1081 \
+          -e HTTPS_PROXY=http://example.com:1081 \
+          -v $PWD:/openwrt \
+          immortalwrt/opde:base zsh
+        ```
 
-* [OpenWrt Packages](https://github.com/openwrt/packages): Community repository
-  of ported packages.
+        > Recommand `http` rather `socks5` protocol
+        >
+        > IP can not be `localhost` or `127.0.0.1`
 
-* [OpenWrt Routing](https://github.com/openwrt/routing): Packages specifically
-  focused on (mesh) routing.
+      - For Windows User, binary is still in volume. It can be copied to outside via followed command:
+        ```bash
+        docker run --rm -v <D:\path\to\dir>:/dst -v openwrt:/openwrt -w /dst immortalwrt:base cp /openwrt/bin /dst
+        ```
+        > Make sure `D:\path\to\dir` has been appended in [File Sharing](https://docs.docker.com/docker-for-windows/#file-sharing).
+
+    </details>
+
+  ### Related Repositories
+  The main repository uses multiple sub-repositories to manage packages of different categories. All packages are installed via the ImmortalWrt package manager called opkg. If you're looking to develop the web interface or port packages to ImmortalWrt, please find the fitting repository below.
+  - [LuCI Web Interface](https://github.com/immortalwrt/luci): Modern and modular interface to control the device via a web browser.
+  - [ImmortalWrt Packages](https://github.com/immortalwrt/packages): Community repository of ported packages.
+  - [OpenWrt Routing](https://github.com/openwrt/routing): Packages specifically focused on (mesh) routing.
+  - [CONTRIBUTED.md](https://github.com/immortalwrt/immortalwrt/blob/master/CONTRIBUTED.md): the 3rd-party packages we introduced.
 
 * [OpenWrt Video](https://github.com/openwrt/video): Packages specifically
   focused on display servers and clients (Xorg and Wayland).
 
 ## Support Information
-
 For a list of supported devices see the [OpenWrt Hardware Database](https://openwrt.org/supported_devices)
+  ### Documentation
+  - [Quick Start Guide](https://openwrt.org/docs/guide-quick-start/start)
+  - [User Guide](https://openwrt.org/docs/guide-user/start)
+  - [Developer Documentation](https://openwrt.org/docs/guide-developer/start)
+  - [Technical Reference](https://openwrt.org/docs/techref/start)
 
-### Documentation
-
-* [Quick Start Guide](https://openwrt.org/docs/guide-quick-start/start)
-* [User Guide](https://openwrt.org/docs/guide-user/start)
-* [Developer Documentation](https://openwrt.org/docs/guide-developer/start)
-* [Technical Reference](https://openwrt.org/docs/techref/start)
-
-### Support Community
-
-* [Forum](https://forum.openwrt.org): For usage, projects, discussions and hardware advise.
-* [Support Chat](https://webchat.oftc.net/#openwrt): Channel `#openwrt` on **oftc.net**.
-
-### Developer Community
-
-* [Bug Reports](https://bugs.openwrt.org): Report bugs in OpenWrt
-* [Dev Mailing List](https://lists.openwrt.org/mailman/listinfo/openwrt-devel): Send patches
-* [Dev Chat](https://webchat.oftc.net/#openwrt-devel): Channel `#openwrt-devel` on **oftc.net**.
+  ### Support Community
+  - Support Chat: group [@ctcgfw_openwrt_discuss](https://t.me/ctcgfw_openwrt_discuss) on [Telegram](https://telegram.org/).
 
 ## License
-
-OpenWrt is licensed under GPL-2.0
+ImmortalWrt is licensed under [GPL-3.0-only](https://spdx.org/licenses/GPL-3.0-only.html).

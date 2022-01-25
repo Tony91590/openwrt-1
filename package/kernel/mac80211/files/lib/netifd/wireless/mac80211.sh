@@ -265,7 +265,6 @@ mac80211_hostapd_setup_base() {
 				case "$channel" in
 					36|40|44|48|52|56|60|64) idx=50;;
 					100|104|108|112|116|120|124|128) idx=114;;
-			                149|153|157|161|165|169|173|177) idx=163;;
 				esac
 			fi
 			enable_ac=1
@@ -436,6 +435,8 @@ mac80211_hostapd_setup_base() {
 
 		append base_cfg "he_default_pe_duration=4" "$N"
 		append base_cfg "he_rts_threshold=1023" "$N"
+		append base_cfg "he_bss_color=8" "$N"
+		append base_cfg "airtime_bss_weight=1" "$N"
 		append base_cfg "he_mu_edca_qos_info_param_count=0" "$N"
 		append base_cfg "he_mu_edca_qos_info_q_ack=0" "$N"
 		append base_cfg "he_mu_edca_qos_info_queue_request=0" "$N"
