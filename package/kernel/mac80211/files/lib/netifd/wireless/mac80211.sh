@@ -149,6 +149,9 @@ mac80211_hostapd_setup_base() {
 	[ "$noscan" -gt 0 ] && hostapd_noscan=1
 	[ "$tx_burst" = 0 ] && tx_burst=
 
+	chan_ofs=0
+	[ "$band" = "6g" ] && chan_ofs=1
+
 	ieee80211n=1
 	ht_capab=
 	case "$htmode" in
@@ -156,7 +159,7 @@ mac80211_hostapd_setup_base() {
 		HT40*|VHT40|VHT80|VHT160|HE40|HE80|HE160)
 			case "$hwmode" in
 				a)
-					case "$(( ($channel / 4) % 2 ))" in
+					case "$(( (($channel / 4) + $chan_ofs) % 2 ))" in
 						1) ht_capab="[HT40+]";;
 						0) ht_capab="[HT40-]";;
 					esac
@@ -225,8 +228,6 @@ mac80211_hostapd_setup_base() {
 	enable_ac=0
 	vht_oper_chwidth=0
 	vht_center_seg0=
-	chan_ofs=0
-	[ "$band" = "6g" ] && chan_ofs=1
 
 	idx="$channel"
 	case "$htmode" in
@@ -435,8 +436,6 @@ mac80211_hostapd_setup_base() {
 
 		append base_cfg "he_default_pe_duration=4" "$N"
 		append base_cfg "he_rts_threshold=1023" "$N"
-		append base_cfg "he_bss_color=8" "$N"
-		append base_cfg "airtime_bss_weight=1" "$N"
 		append base_cfg "he_mu_edca_qos_info_param_count=0" "$N"
 		append base_cfg "he_mu_edca_qos_info_q_ack=0" "$N"
 		append base_cfg "he_mu_edca_qos_info_queue_request=0" "$N"
@@ -642,7 +641,7 @@ mac80211_iw_interface_add() {
 		rc="$?"
 	}
 
-	[ "$rc" != 0 ] && wireless_setup_failed INTERFACE_CREATION_FAILED
+	[ "$rc" != 0 ] && echo "Failed to create interface $ifname"
 	return $rc
 }
 

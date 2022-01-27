@@ -10,12 +10,31 @@ define Device/FitImageLzma
 	KERNEL_NAME := Image
 endef
 
+define Device/FitzImage
+	KERNEL_SUFFIX := -fit-zImage.itb
+	KERNEL = kernel-bin | fit none $$(DEVICE_DTS_DIR)/$$(DEVICE_DTS).dtb
+	KERNEL_NAME := zImage
+endef
+
 define Device/UbiFit
 	KERNEL_IN_UBI := 1
 	IMAGES := nand-factory.ubi nand-sysupgrade.bin
 	IMAGE/nand-factory.ubi := append-ubi
 	IMAGE/nand-sysupgrade.bin := sysupgrade-tar | append-metadata
 endef
+
+define Device/edimax_cax1800
+	$(call Device/FitImage)
+	$(call Device/UbiFit)
+	DEVICE_VENDOR := Edimax
+	DEVICE_MODEL := CAX1800
+	BLOCKSIZE := 128k
+	PAGESIZE := 2048
+	DEVICE_DTS_CONFIG := config@ac03
+	SOC := ipq8070
+	DEVICE_PACKAGES := ipq-wifi-edimax_cax1800 uboot-envtools
+endef
+TARGET_DEVICES += edimax_cax1800
 
 define Device/qnap_301w
 	$(call Device/FitImage)
@@ -28,7 +47,7 @@ define Device/qnap_301w
 	IMAGES += factory.bin sysupgrade.bin
 	IMAGE/factory.bin := append-rootfs | pad-rootfs | pad-to 64k
 	IMAGE/sysupgrade.bin/squashfs := append-rootfs | pad-to 64k | sysupgrade-tar rootfs=$$$$@ | append-metadata
-	DEVICE_PACKAGES := ipq-wifi-qnap_301w e2fsprogs kmod-fs-ext4 losetup
+	DEVICE_PACKAGES := ipq-wifi-qnap_301w e2fsprogs kmod-fs-ext4 losetup uboot-envtools
 endef
 TARGET_DEVICES += qnap_301w
 
@@ -49,10 +68,24 @@ define Device/xiaomi_ax3600
 	PAGESIZE := 2048
 	DEVICE_DTS_CONFIG := config@ac04
 	SOC := ipq8071
-	DEVICE_PACKAGES := ath10k-firmware-qca9887-ct ipq-wifi-xiaomi_ax3600 \
-	kmod-ath10k-ct uboot-envtools
+	DEVICE_PACKAGES := ipq-wifi-xiaomi_ax3600 kmod-ath10k-ct ath10k-firmware-qca9887-ct \
+	uboot-envtools
 endef
 TARGET_DEVICES += xiaomi_ax3600
+
+define Device/xiaomi_ax9000
+	$(call Device/FitImage)
+	$(call Device/UbiFit)
+	DEVICE_VENDOR := Xiaomi
+	DEVICE_MODEL := AX9000
+	BLOCKSIZE := 128k
+	PAGESIZE := 2048
+	DEVICE_DTS_CONFIG := config@hk14
+	SOC := ipq8072
+	DEVICE_PACKAGES := ipq-wifi-xiaomi_ax9000 kmod-ath10k-ct ath10k-firmware-qca9887-ct \
+	uboot-envtools
+endef
+TARGET_DEVICES += xiaomi_ax9000
 
 define Device/zte_mf269
 	$(call Device/FitImage)
