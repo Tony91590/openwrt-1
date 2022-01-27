@@ -15,7 +15,11 @@ DEFAULT_PACKAGES += \
 	kmod-usb3 kmod-usb-dwc3 kmod-usb-dwc3-qcom \
 	kmod-leds-gpio kmod-gpio-button-hotplug \
 	ath11k-firmware-ipq8074 kmod-ath11k-ahb \
-	kmod-qca-nss-dp kmod-qca-nss-drv kmod-qca-nss-drv-pppoe kmod-qca-nss-ecm kmod-qca-nss-drv-bridge-mgr nss-firmware-ipq8074 \
-	wpad-basic-wolfssl 
+	autocore-arm htop wpad-basic-wolfssl zram-swap \
+	kmod-qca-nss-dp kmod-qca-nss-drv-64 \
+	kmod-qca-nss-drv-pppoe-64 kmod-qca-nss-ecm-64 \
+	kmod-qca-nss-drv-bridge-mgr-64 kmod-qca-drv-vlan-mgr-64 \
+	nss-firmware-ipq8074  
+	
 
 $(eval $(call BuildTarget))
