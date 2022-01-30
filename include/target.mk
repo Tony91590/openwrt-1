@@ -12,7 +12,6 @@ DEVICE_TYPE?=router
 # Default packages - the really basic set
 DEFAULT_PACKAGES:=\
 	base-files \
-	ca-bundle \
 	dropbear \
 	fstools \
 	libc \
@@ -24,8 +23,7 @@ DEFAULT_PACKAGES:=\
 	opkg \
 	uci \
 	uclient-fetch \
-	urandom-seed \
-	urngd
+	urandom-seed 
 
 ifneq ($(CONFIG_SELINUX),)
 DEFAULT_PACKAGES+=busybox-selinux procd-selinux
@@ -62,12 +60,19 @@ DEFAULT_PACKAGES.router:=\
 # For easy usage
 DEFAULT_PACKAGES.tweak:=\
 	block-mount \
+	coremark \
 	default-settings \
+	default-settings-lang \
 	kmod-ipt-raw \
 	kmod-nf-nathelper \
 	kmod-nf-nathelper-extra \
 	luci \
+	luci-newapi \
 	luci-app-cpufreq \
+	luci-app-autoreboot \
+	luci-app-filetransfer \
+	luci-app-ramfree \
+	luci-app-upnp \
 	luci-app-turboacc \
 	luci-compat \
 	luci-lib-base \

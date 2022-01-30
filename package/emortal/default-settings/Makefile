@@ -11,7 +11,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=default-settings
-PKG_VERSION:=2.5
+PKG_VERSION:=1.1
 PKG_RELEASE:=$(COMMITCOUNT)
 
 PKG_LICENSE:=GPL-3.0
@@ -23,7 +23,13 @@ define Package/default-settings
   CATEGORY:=LuCI
   TITLE:=LuCI support for Default Settings
   PKGARCH:=all
-  DEPENDS:=
+  DEPENDS:=+luci-lib-base
+endef
+
+define Package/default-settings-lang
+  $(Package/default-settings)
+  TITLE+= (Optimize for users)
+  DEPENDS:=+default-settings +@LUCI_LANG_fr
 endef
 
 define Build/Compile
@@ -35,3 +41,4 @@ define Package/default-settings/install
 endef
 
 $(eval $(call BuildPackage,default-settings))
+$(eval $(call BuildPackage,default-settings-lang))
