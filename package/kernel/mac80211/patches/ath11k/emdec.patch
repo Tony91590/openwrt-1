@@ -53,7 +53,7 @@ static int ath11k_dbring_fill_bufs(struct ath11k *ar,
 		if (ret) {
 			ath11k_warn(ar->ab, "failed to replenish db ring num_remain %d req_ent %d\n",
 				    num_remain, req_entries);
-+            kfree(buff->payload);
++                       kfree(buff->payload);
 			kfree(buff);
 			break;
 		}
