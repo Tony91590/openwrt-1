@@ -72,6 +72,15 @@ hostapd_append_wpa_key_mgmt() {
 		;;
 	esac
 
+	[ "$fils" -gt 0 ] && {
+		case "$auth_type" in
+			eap*)
+				append wpa_key_mgmt FILS-SHA256
+				[ "${ieee80211r:-0}" -gt 0 ] && append wpa_key_mgmt FT-FILS-SHA256
+			;;
+		esac
+	}
+
 	[ "$auth_osen" = "1" ] && append wpa_key_mgmt "OSEN"
 }
 
@@ -100,8 +109,6 @@ hostapd_common_add_device_config() {
 	config_add_string require_mode
 	config_add_boolean legacy_rates
 	config_add_int cell_density
-	config_add_int cell_density_rates
-	config_add_int cell_density_rssi
 	config_add_int rts_threshold
 	config_add_int rssi_reject_assoc_rssi
 	config_add_int rssi_ignore_probe_request
@@ -122,8 +129,8 @@ hostapd_prepare_device_config() {
 	local base_cfg=
 
 	json_get_vars country country3 country_ie beacon_int:100 dtim_period:2 doth require_mode legacy_rates \
-		acs_chan_bias local_pwr_constraint spectrum_mgmt_required airtime_mode cell_density cell_density_rates \
-		cell_density_rssi rts_threshold beacon_rate rssi_reject_assoc_rssi rssi_ignore_probe_request maxassoc
+		acs_chan_bias local_pwr_constraint spectrum_mgmt_required airtime_mode cell_density \
+		rts_threshold beacon_rate rssi_reject_assoc_rssi rssi_ignore_probe_request maxassoc
 
 	hostapd_set_log_options base_cfg
 
@@ -133,8 +140,6 @@ hostapd_prepare_device_config() {
 	set_default legacy_rates 0
 	set_default airtime_mode 0
 	set_default cell_density 0
-	set_default cell_density_rates "$cell_density"
-	set_default cell_density_rssi "$cell_density"
 
 	[ -n "$country" ] && {
 		append base_cfg "country_code=$country" "$N"
@@ -165,24 +170,24 @@ hostapd_prepare_device_config() {
 	fi
 	case "$hwmode" in
 		b)
-			if [ "$cell_density_rates" -eq 1 ]; then
+			if [ "$cell_density" -eq 1 ]; then
 				set_default rate_list "5500 11000"
 				set_default basic_rate_list "5500 11000"
-			elif [ "$cell_density_rates" -ge 2 ]; then
+			elif [ "$cell_density" -ge 2 ]; then
 				set_default rate_list "11000"
 				set_default basic_rate_list "11000"
 			fi
 		;;
 		g)
-			if [ "$cell_density_rates" -eq 0 ] || [ "$cell_density_rates" -eq 1 ]; then
+			if [ "$cell_density" -eq 0 ] || [ "$cell_density" -eq 1 ]; then
 				if [ "$legacy_rates" -eq 0 ]; then
 					set_default rate_list "6000 9000 12000 18000 24000 36000 48000 54000"
 					set_default basic_rate_list "6000 12000 24000"
-				elif [ "$cell_density_rates" -eq 1 ]; then
+				elif [ "$cell_density" -eq 1 ]; then
 					set_default rate_list "5500 6000 9000 11000 12000 18000 24000 36000 48000 54000"
 					set_default basic_rate_list "5500 11000"
 				fi
-			elif [ "$cell_density_rates" -ge 3 ] && [ "$legacy_rates" -ne 0 ] || [ "$cell_density_rates" -eq 2 ]; then
+			elif [ "$cell_density" -ge 3 ] && [ "$legacy_rates" -ne 0 ] || [ "$cell_density" -eq 2 ]; then
 				if [ "$legacy_rates" -eq 0 ]; then
 					set_default rate_list "12000 18000 24000 36000 48000 54000"
 					set_default basic_rate_list "12000 24000"
@@ -190,47 +195,24 @@ hostapd_prepare_device_config() {
 					set_default rate_list "11000 12000 18000 24000 36000 48000 54000"
 					set_default basic_rate_list "11000"
 				fi
-			elif [ "$cell_density_rates" -ge 3 ]; then
+			elif [ "$cell_density" -ge 3 ]; then
 				set_default rate_list "24000 36000 48000 54000"
 				set_default basic_rate_list "24000"
 			fi
 		;;
 		a)
-			if [ "$cell_density_rates" -eq 1 ]; then
+			if [ "$cell_density" -eq 1 ]; then
 				set_default rate_list "6000 9000 12000 18000 24000 36000 48000 54000"
 				set_default basic_rate_list "6000 12000 24000"
-			elif [ "$cell_density_rates" -eq 2 ]; then
+			elif [ "$cell_density" -eq 2 ]; then
 				set_default rate_list "12000 18000 24000 36000 48000 54000"
 				set_default basic_rate_list "12000 24000"
-			elif [ "$cell_density_rates" -ge 3 ]; then
+			elif [ "$cell_density" -ge 3 ]; then
 				set_default rate_list "24000 36000 48000 54000"
 				set_default basic_rate_list "24000"
 			fi
 		;;
 	esac
-
-	if [ "$cell_density_rssi" -eq 1 ]; then
-		set_default rssi_reject_assoc_rssi -80
-		set_default rssi_ignore_probe_request -80
-	elif [ "$cell_density_rssi" -eq 2 ]; then
-		set_default rssi_reject_assoc_rssi -75
-		set_default rssi_ignore_probe_request -75
-	elif [ "$cell_density_rssi" -eq 3 ]; then
-		set_default rssi_reject_assoc_rssi -70
-		set_default rssi_ignore_probe_request -70
-	elif [ "$cell_density_rssi" -eq 4 ]; then
-		set_default rssi_reject_assoc_rssi -67
-		set_default rssi_ignore_probe_request -67
-	elif [ "$cell_density_rssi" -eq 5 ]; then
-		set_default rssi_reject_assoc_rssi -65
-		set_default rssi_ignore_probe_request -65
-	elif [ "$cell_density_rssi" -eq 6 ]; then
-		set_default rssi_reject_assoc_rssi -62
-		set_default rssi_ignore_probe_request -62
-	elif [ "$cell_density_rssi" -ge 7 ]; then
-		set_default rssi_reject_assoc_rssi -60
-		set_default rssi_ignore_probe_request -60
-	fi
 
 	for r in $rate_list; do
 		hostapd_add_rate rlist "$r"
@@ -386,6 +368,9 @@ hostapd_common_add_bss_config() {
 
 	config_add_int eap_server
 	config_add_string eap_user_file ca_cert server_cert private_key private_key_passwd server_id
+
+	config_add_boolean fils
+	config_add_string fils_dhcp
 }
 
 hostapd_set_vlan_file() {
@@ -558,8 +543,9 @@ hostapd_set_bss_options() {
 		airtime_bss_weight airtime_bss_limit airtime_sta_weight \
 		multicast_to_unicast proxy_arp per_sta_vif \
 		eap_server eap_user_file ca_cert server_cert private_key private_key_passwd server_id \
-		vendor_elements
+		vendor_elements fils
 
+	set_default fils 0
 	set_default isolate 0
 	set_default maxassoc 0
 	set_default max_inactivity 0
@@ -580,6 +566,8 @@ hostapd_set_bss_options() {
 	set_default airtime_bss_weight 0
 	set_default airtime_bss_limit 0
 	set_default eap_server 0
+
+	/usr/sbin/hostapd -vfils || fils=0
 
 	append bss_conf "ctrl_interface=/var/run/hostapd"
 	if [ "$isolate" -gt 0 ]; then
@@ -681,7 +669,9 @@ hostapd_set_bss_options() {
 				auth_server auth_secret auth_port \
 				dae_client dae_secret dae_port \
 				ownip radius_client_addr \
-				eap_reauth_period request_cui
+				eap_reauth_period request_cui \
+				erp_domain mobility_domain \
+				fils_realm fils_dhcp
 
 			# radius can provide VLAN ID for clients
 			vlan_possible=1
@@ -690,6 +680,30 @@ hostapd_set_bss_options() {
 			[ -n "$auth_server" ] || json_get_var auth_server server
 			[ -n "$auth_port" ] || json_get_var auth_port port
 			[ -n "$auth_secret" ] || json_get_var auth_secret key
+
+			[ "$fils" -gt 0 ] && {
+				set_default erp_domain "$mobility_domain"
+				set_default erp_domain "$(echo "$ssid" | md5sum | head -c 8)"
+				set_default fils_realm "$erp_domain"
+
+				append bss_conf "erp_send_reauth_start=1" "$N"
+				append bss_conf "erp_domain=$erp_domain" "$N"
+				append bss_conf "fils_realm=$fils_realm" "$N"
+				append bss_conf "fils_cache_id=$(echo "$fils_realm" | md5sum | head -c 4)" "$N"
+
+				[ "$fils_dhcp" = "*" ] && {
+					json_get_values network network
+					fils_dhcp=
+					for net in $network; do
+						fils_dhcp="$(ifstatus "$net" | jsonfilter -e '@.data.dhcpserver')"
+						[ -n "$fils_dhcp" ] && break
+					done
+
+					[ -z "$fils_dhcp" -a -n "$network_bridge" -a -n "$network_ifname" ] && \
+						fils_dhcp="$(udhcpc -B -n -q -s /lib/netifd/dhcp-get-server.sh -t 1 -i "$network_ifname" 2>/dev/null)"
+				}
+				[ -n "$fils_dhcp" ] && append bss_conf "dhcp_server=$fils_dhcp" "$N"
+			}
 
 			set_default auth_port 1812
 			set_default dae_port 3799
@@ -880,6 +894,10 @@ hostapd_set_bss_options() {
 				done
 			fi
 		fi
+		if [ "$fils" -gt 0 ]; then
+			json_get_vars fils_realm
+			set_default fils_realm "$(echo "$ssid" | md5sum | head -c 8)"
+		fi
 
 		append bss_conf "wpa_disable_eapol_key_retries=$wpa_disable_eapol_key_retries" "$N"
 
@@ -904,7 +922,7 @@ hostapd_set_bss_options() {
 		fi
 
 		append bss_conf "okc=$auth_cache" "$N"
-		[ "$auth_cache" = 0 ] && append bss_conf "disable_pmksa_caching=1" "$N"
+		[ "$auth_cache" = 0 -a "$fils" = 0 ] && append bss_conf "disable_pmksa_caching=1" "$N"
 
 		# RSN -> allow management frame protection
 		case "$ieee80211w" in
@@ -1058,6 +1076,7 @@ hostapd_set_bss_options() {
 
 	if [ "$eap_server" = "1" ]; then
 		append bss_conf "eap_server=1" "$N"
+		append bss_conf "eap_server_erp=1" "$N"
 		[ -n "$eap_user_file" ] && append bss_conf "eap_user_file=$eap_user_file" "$N"
 		[ -n "$ca_cert" ] && append bss_conf "ca_cert=$ca_cert" "$N"
 		[ -n "$server_cert" ] && append bss_conf "server_cert=$server_cert" "$N"
@@ -1224,7 +1243,7 @@ wpa_supplicant_add_network() {
 	json_get_vars \
 		ssid bssid key \
 		basic_rate mcast_rate \
-		ieee80211w ieee80211r \
+		ieee80211w ieee80211r fils \
 		multi_ap \
 		default_disabled
 
@@ -1316,6 +1335,7 @@ wpa_supplicant_add_network() {
 
 			json_get_vars eap_type identity anonymous_identity ca_cert ca_cert_usesystem
 
+			[ "$fils" -gt 0 ] && append network_data "erp=1" "$N$T"
 			if [ "$ca_cert_usesystem" -eq "1" -a -f "/etc/ssl/certs/ca-certificates.crt" ]; then
 				append network_data "ca_cert=\"/etc/ssl/certs/ca-certificates.crt\"" "$N$T"
 			else
