@@ -13,6 +13,8 @@ PKG_MAINTAINER:=John Crispin <john@phrozen.org>
 PKG_LICENSE:=GPL-2.0
 PKG_LICENSE_FILES:=
 
+PKG_BUILD_PARALLEL:=1
+
 PKG_FLAGS:=nonshared
 
 include $(INCLUDE_DIR)/package.mk
@@ -33,10 +35,6 @@ endef
 
 TARGET_CFLAGS += \
 	-I$(STAGING_DIR)/usr/include -ffunction-sections -fdata-sections
-
-# Disable GCC 9 warning about pointers to members of a packed struct
-GCCV_GE = $(filter $(1),$(shell echo -e "$(1)\n$(GCCV)" | sort -V | head -n1))
-TARGET_CFLAGS += $(if $(call GCCV_GE,9),-Wno-address-of-packed-member)
 
 TARGET_LDFLAGS += -Wl,--gc-sections
 
