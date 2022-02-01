@@ -2,14 +2,13 @@ include $(TOPDIR)/rules.mk
 
 ARCH:=aarch64
 BOARD:=ipq807x
-BOARDNAME:=Qualcomm Atheros IPQ807x
+BOARDNAME:=Qualcomm IPQ807x
 FEATURES:=squashfs ramdisk fpu nand source-only
 KERNELNAME:=Image dtbs
 CPU_TYPE:=cortex-a53
 SUBTARGETS:=generic
 
 KERNEL_PATCHVER:=5.10
-KERNEL_TESTING_PATCHVER:=5.15
 
 include $(INCLUDE_DIR)/target.mk
 DEFAULT_PACKAGES += \
