@@ -24,6 +24,7 @@ PKG_FLAGS:=nonshared
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
 include $(INCLUDE_DIR)/bpf.mk
+include $(INCLUDE_DIR)/nls.mk
 
 define Package/qosify
   SECTION:=utils
@@ -62,6 +63,5 @@ define Package/qosify/install
 	$(INSTALL_DATA) ./files/qosify.hotplug $(1)/etc/hotplug.d/net/10-qosify
 	$(INSTALL_DATA) ./files/qosify.hotplug $(1)/etc/hotplug.d/iface/10-qosify
 endef
-	$(INSTALL_DATA) ./files/qosify.hotplug $(1)/etc/hotplug.d/iface/10-qosify
 
 $(eval $(call BuildPackage,qosify))

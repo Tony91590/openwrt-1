@@ -51,21 +51,21 @@ endef
 define Package/ath11k-board-ipq6018/install
 	$(INSTALL_DIR) $(1)/lib/firmware/ath11k/IPQ6018/hw1.0
 	$(INSTALL_DATA) \
-		$(PKG_BUILD_DIR)/IPQ6018/hw1.0/WLAN.HK.2.5.0.1/WLAN.HK.2.5.0.1-01192-QCAHKSWPL_SILICONZ-1/board-2.bin \
+		$(PKG_BUILD_DIR)/IPQ6018/hw1.0/WLAN.HK.2.5.0.1/WLAN.HK.2.5.0.1-01201-QCAHKSWPL_SILICONZ-1/board-2.bin \
 		$(1)/lib/firmware/ath11k/IPQ6018/hw1.0/
 endef
 
 define Package/ath11k-board-ipq8074/install
 	$(INSTALL_DIR) $(1)/lib/firmware/ath11k/IPQ8074/hw2.0
 	$(INSTALL_DATA) \
-		$(PKG_BUILD_DIR)/IPQ8074/hw2.0/WLAN.HK.2.5.0.1/WLAN.HK.2.5.0.1-01192-QCAHKSWPL_SILICONZ-1/board-2.bin \
+		$(PKG_BUILD_DIR)/IPQ8074/hw2.0/WLAN.HK.2.5.0.1/WLAN.HK.2.5.0.1-01201-QCAHKSWPL_SILICONZ-1/board-2.bin \
 		$(1)/lib/firmware/ath11k/IPQ8074/hw2.0/
 endef
 
 define Package/ath11k-board-qcn9074/install
 	$(INSTALL_DIR) $(1)/lib/firmware/ath11k/QCN9074/hw1.0
 	$(INSTALL_DATA) \
-		$(PKG_BUILD_DIR)/QCN9074/hw1.0/WLAN.HK.2.5.0.1/WLAN.HK.2.5.0.1-01192-QCAHKSWPL_SILICONZ-1/board-2.bin \
+		$(PKG_BUILD_DIR)/QCN9074/hw1.0/WLAN.HK.2.5.0.1/WLAN.HK.2.5.0.1-01201-QCAHKSWPL_SILICONZ-1/board-2.bin \
 		$(1)/lib/firmware/ath11k/QCN9074/hw1.0/
 endef
 
