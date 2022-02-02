@@ -1,6 +1,6 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=qca-nss-ecm
+PKG_NAME:=qca-nss-ecm-64
 PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE_URL:=https://source.codeaurora.org/quic/cc-qrdk/oss/lklm/qca-nss-ecm
@@ -14,12 +14,12 @@ PKG_BUILD_PARALLEL:=1
 include $(INCLUDE_DIR)/kernel.mk
 include $(INCLUDE_DIR)/package.mk
 
-define KernelPackage/qca-nss-ecm
+define KernelPackage/qca-nss-ecm-64
   SECTION:=kernel
   CATEGORY:=Kernel modules
   SUBMENU:=Network Support
   DEPENDS:=@(TARGET_ipq807x||TARGET_ipq60xx) \
-  	+kmod-qca-nss-drv \
+  	+kmod-qca-nss-drv-64 \
 	+iptables-mod-extra \
 	+kmod-ipt-conntrack \
 	+kmod-ipt-physdev \
@@ -94,4 +94,4 @@ define Build/Compile
 		modules
 endef
 
-$(eval $(call KernelPackage,qca-nss-ecm))
+$(eval $(call KernelPackage,qca-nss-ecm-64))
