@@ -34,11 +34,11 @@ define KernelPackage/qca-nss-ecm-64
 	CONFIG_NF_CONNTRACK_DSCPREMARK_EXT=n
 endef
 
-define KernelPackage/qca-nss-ecm/Description
+define KernelPackage/qca-nss-ecm-64/Description
 This package contains the QCA NSS Enhanced Connection Manager
 endef
 
-define KernelPackage/qca-nss-ecm/install
+define KernelPackage/qca-nss-ecm-64/install
 	$(INSTALL_DIR) $(1)/etc/firewall.d $(1)/etc/init.d $(1)/usr/bin $(1)/lib/netifd/offload $(1)/etc/config $(1)/etc/uci-defaults $(1)/etc/sysctl.d
 	$(INSTALL_DATA) ./files/qca-nss-ecm.firewall $(1)/etc/firewall.d/qca-nss-ecm
 	$(INSTALL_BIN) ./files/qca-nss-ecm.init $(1)/etc/init.d/qca-nss-ecm
