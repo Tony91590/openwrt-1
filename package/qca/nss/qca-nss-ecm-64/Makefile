@@ -1,25 +1,27 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=qca-nss-ecm-64
+include $(TOPDIR)/rules.mk
+
+PKG_NAME:=qca-nss-ecm
 PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE_URL:=https://source.codeaurora.org/quic/cc-qrdk/oss/lklm/qca-nss-ecm
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_DATE:=2021-04-29
 PKG_SOURCE_VERSION:=c115aec34867b582e2e5ea79fc5315971e0e953c
-PKG_MIRROR_HASH:=962385b45daa2e552a15018bf2930c2df1f6f575d885375bf935a142b4255da5
+PKG_MIRROR_HASH:=a772996af7bbae7031eebc2f789431d29be67f11eb0a1e874c08b74eec6f4585
 
 PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/kernel.mk
 include $(INCLUDE_DIR)/package.mk
 
-define KernelPackage/qca-nss-ecm-64
+define KernelPackage/qca-nss-ecm
   SECTION:=kernel
   CATEGORY:=Kernel modules
   SUBMENU:=Network Support
   DEPENDS:=@(TARGET_ipq807x||TARGET_ipq60xx) \
-  	+kmod-qca-nss-drv-64 \
+  	+kmod-qca-nss-drv \
 	+iptables-mod-extra \
 	+kmod-ipt-conntrack \
 	+kmod-ipt-physdev \
@@ -30,15 +32,15 @@ define KernelPackage/qca-nss-ecm-64
   FILES:=$(PKG_BUILD_DIR)/*.ko
   KCONFIG:=CONFIG_BRIDGE_NETFILTER=y \
 	CONFIG_NF_CONNTRACK_EVENTS=y \
-	CONFIG_NF_CONNTRACK_CHAIN_EVENTS=y \
+	CONFIG_NF_CONNTRACK_CHAIN_EVENTS=n \
 	CONFIG_NF_CONNTRACK_DSCPREMARK_EXT=n
 endef
 
-define KernelPackage/qca-nss-ecm-64/Description
+define KernelPackage/qca-nss-ecm/Description
 This package contains the QCA NSS Enhanced Connection Manager
 endef
 
-define KernelPackage/qca-nss-ecm-64/install
+define KernelPackage/qca-nss-ecm/install
 	$(INSTALL_DIR) $(1)/etc/firewall.d $(1)/etc/init.d $(1)/usr/bin $(1)/lib/netifd/offload $(1)/etc/config $(1)/etc/uci-defaults $(1)/etc/sysctl.d
 	$(INSTALL_DATA) ./files/qca-nss-ecm.firewall $(1)/etc/firewall.d/qca-nss-ecm
 	$(INSTALL_BIN) ./files/qca-nss-ecm.init $(1)/etc/init.d/qca-nss-ecm
@@ -70,7 +72,6 @@ ECM_MAKE_OPTS+= ECM_FRONT_END_NSS_ENABLE=y \
 		ECM_CLASSIFIER_PCC_ENABLE=n \
 		ECM_BAND_STEERING_ENABLE=n \
 		ECM_INTERFACE_PPPOE_ENABLE=y
-                ECM_IPV6_ENABLE=y
 endif
 
 ifeq ($(CONFIG_TARGET_BOARD), "ipq807x")
@@ -95,4 +96,4 @@ define Build/Compile
 		modules
 endef
 
-$(eval $(call KernelPackage,qca-nss-ecm-64))
+$(eval $(call KernelPackage,qca-nss-ecm))
