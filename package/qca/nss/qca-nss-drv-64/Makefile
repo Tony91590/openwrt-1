@@ -1,13 +1,13 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=qca-nss-drv
+PKG_NAME:=qca-nss-drv-64
 PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE_URL:=https://source.codeaurora.org/quic/qsdk/oss/lklm/nss-drv
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_DATE:=2021-04-26
 PKG_SOURCE_VERSION:=1cf4bf81fd395f61648efeae78cdf1df60e954ff
-PKG_MIRROR_HASH:=86b7455565d28a72da981099c67a89ea9e0ae3874a34be30959dcf48f5e2196c
+PKG_MIRROR_HASH:=3dd84a548a530188021fd4dab54ca4e1eb9056ca77381b24f587365fc7c16f21
 
 PKG_BUILD_PARALLEL:=1
 
@@ -16,7 +16,7 @@ include $(INCLUDE_DIR)/package.mk
 
 NSS_CLIENTS_DIR:=$(TOPDIR)/qca/src/qca-nss-clients
 
-define KernelPackage/qca-nss-drv
+define KernelPackage/qca-nss-drv-64
   SECTION:=kernel
   CATEGORY:=Kernel modules
   SUBMENU:=Network Devices
@@ -26,7 +26,7 @@ define KernelPackage/qca-nss-drv
   AUTOLOAD:=$(call AutoLoad,32,qca-nss-drv)
 endef
 
-define KernelPackage/qca-nss-drv/install
+define KernelPackage/qca-nss-drv-64/install
 	$(INSTALL_DIR) $(1)/lib/debug
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_DIR) $(1)/etc/sysctl.d
@@ -41,7 +41,7 @@ define KernelPackage/qca-nss-drv/install
 
 endef
 
-define KernelPackage/qca-nss-drv/Description
+define KernelPackage/qca-nss-drv-64/Description
 This package contains a NSS driver for QCA chipset
 endef
 
@@ -119,4 +119,4 @@ define Build/Compile
 		modules
 endef
 
-$(eval $(call KernelPackage,qca-nss-drv))
+$(eval $(call KernelPackage,qca-nss-drv-64))
