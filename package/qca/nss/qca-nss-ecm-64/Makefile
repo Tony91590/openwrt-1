@@ -1,7 +1,5 @@
 include $(TOPDIR)/rules.mk
 
-include $(TOPDIR)/rules.mk
-
 PKG_NAME:=qca-nss-ecm
 PKG_RELEASE:=$(AUTORELEASE)
 
