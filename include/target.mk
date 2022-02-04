@@ -62,7 +62,6 @@ DEFAULT_PACKAGES.tweak:=\
 	block-mount \
 	coremark \
 	default-settings \
-	default-settings-lang \
 	kmod-ipt-raw \
 	kmod-nf-nathelper \
 	kmod-nf-nathelper-extra \
