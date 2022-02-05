@@ -50,7 +50,10 @@ define Build/InstallDev
 	$(CP) $(PKG_BUILD_DIR)/exports/* $(1)/usr/include/qca-nss-drv/
 endef
 
-EXTRA_CFLAGS+= -I$(STAGING_DIR)/usr/include/qca-nss-gmac -I$(STAGING_DIR)/usr/include/qca-nss-dp -I$(STAGING_DIR)/usr/include/qca-ssdk
+EXTRA_CFLAGS+= -I$(STAGING_DIR)/usr/include/qca-nss-gmac \
+			   -I$(STAGING_DIR)/usr/include/qca-nss-dp \
+			   -I$(STAGING_DIR)/usr/include/qca-ssdk \
+			   -Wno-unused-variable
 
 ifneq (, $(findstring $(CONFIG_TARGET_BOARD), "ipq807x" "ipq60xx"))
 EXTRA_CFLAGS+= -DNSS_MEM_PROFILE_MEDIUM
