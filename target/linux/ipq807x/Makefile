@@ -20,6 +20,6 @@ DEFAULT_PACKAGES += \
 	kmod-qca-nss-dp kmod-qca-nss-drv-64 \
 	kmod-qca-nss-drv-pppoe-64 kmod-qca-nss-ecm-64 \
 	kmod-qca-nss-drv-bridge-mgr-64 kmod-qca-drv-vlan-mgr-64 nss-eip-firmware \
-	nss-firmware-ipq8074 ath11k-board-ipq8074 qca-ssdk-shell qca-nss-gmac
-
+	nss-firmware-ipq8074 ath11k-board-ipq8074 qca-ssdk-shell kmod-qca-ssdk-nohnat
+	
 $(eval $(call BuildTarget))
