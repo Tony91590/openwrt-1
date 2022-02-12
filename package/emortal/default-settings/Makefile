@@ -35,3 +35,4 @@ define Package/default-settings/install
 endef
 
 $(eval $(call BuildPackage,default-settings))
+
