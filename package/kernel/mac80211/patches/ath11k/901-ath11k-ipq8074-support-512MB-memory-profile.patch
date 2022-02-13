@@ -71,7 +71,7 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
 ++ 
 ++ 	  Say Y to enable access to the FFT/spectral data via debugfs.
 +++
-+++config ATH11K_MEM_PROFILE_512MB
++++config ATH11K_MEM_PROFILE_512M
 +++	bool "Atheros ath11k 512MB memory profile"
 +++	depends on ATH11K && ATH11K_MEM_PROFILE_1GB=n
 +++	help
@@ -79,7 +79,7 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
 +++
 +++config ATH11K_MEM_PROFILE_1GB
 +++	bool "Atheros ath11k 1GB memory profile"
-+++	depends on ATH11K && ATH11K_MEM_PROFILE_512MB=n
++++	depends on ATH11K && ATH11K_MEM_PROFILE_512M=n
 +++	help
 +++	  Use limits for the 1GB memory size.
 ++diff --git a/drivers/net/wireless/ath/ath11k/core.c b/drivers/net/wireless/ath/ath11k/core.c
@@ -94,7 +94,7 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
 ++ 		.fw_mem_mode = 0,
 ++ 		.num_vdevs = 16 + 1,
 ++ 		.num_peers = 512,
-+++#elif CPTCFG_ATH11K_MEM_PROFILE_512MB
++++#elif CPTCFG_ATH11K_MEM_PROFILE_512M
 +++		.fw_mem_mode = 1,
 +++		.num_vdevs = 8,
 +++		.num_peers = 128,
@@ -110,7 +110,7 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
 ++ ATH11K_DEBUGFS=
 ++ ATH11K_TRACING=
 ++ ATH11K_SPECTRAL=
-+++ATH11K_MEM_PROFILE_512MB=
++++ATH11K_MEM_PROFILE_512M=
 +++ATH11K_MEM_PROFILE_1GB=
 ++ WLAN_VENDOR_ATMEL=
 ++ ATMEL=
@@ -127,7 +127,7 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
 + 
 + 	  Say Y to enable access to the FFT/spectral data via debugfs.
 ++
-++config ATH11K_MEM_PROFILE_512MB
+++config ATH11K_MEM_PROFILE_512M
 ++	bool "Atheros ath11k 512MB memory profile"
 ++	depends on ATH11K && ATH11K_MEM_PROFILE_1GB=n
 ++	default n
@@ -136,7 +136,7 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
 ++
 ++config ATH11K_MEM_PROFILE_1GB
 ++	bool "Atheros ath11k 1GB memory profile"
-++	depends on ATH11K && ATH11K_MEM_PROFILE_512MB=n
+++	depends on ATH11K && ATH11K_MEM_PROFILE_512M=n
 ++	default n
 ++	help
 ++	  Use limits for the 1GB memory size.
@@ -152,7 +152,7 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
 + 		.fw_mem_mode = 0,
 + 		.num_vdevs = 16 + 1,
 + 		.num_peers = 512,
-++#elif CPTCFG_ATH11K_MEM_PROFILE_512MB
+++#elif CPTCFG_ATH11K_MEM_PROFILE_512M
 ++		.fw_mem_mode = 1,
 ++		.num_vdevs = 8,
 ++		.num_peers = 128,
@@ -168,7 +168,7 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
 + ATH11K_DEBUGFS=
 + ATH11K_TRACING=
 + ATH11K_SPECTRAL=
-++ATH11K_MEM_PROFILE_512MB=
+++ATH11K_MEM_PROFILE_512M=
 ++ATH11K_MEM_PROFILE_1GB=
 + WLAN_VENDOR_ATMEL=
 + ATMEL=
@@ -183,7 +183,7 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
  
  	  Say Y to enable access to the FFT/spectral data via debugfs.
 +
-+config ATH11K_MEM_PROFILE_512MB
++config ATH11K_MEM_PROFILE_512M
 +	bool "Atheros ath11k 512MB memory profile"
 +	depends on ATH11K
 +	help
@@ -204,7 +204,7 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
  		.fw_mem_mode = 0,
  		.num_vdevs = 16 + 1,
  		.num_peers = 512,
-+#elif CPTCFG_ATH11K_MEM_PROFILE_512MB
++#elif CPTCFG_ATH11K_MEM_PROFILE_512M
 +		.fw_mem_mode = 1,
 +		.num_vdevs = 8,
 +		.num_peers = 128,
@@ -218,7 +218,7 @@ Signed-off-by: Robert Marko <robimarko@gmail.com>
  ATH11K_DEBUGFS=
  ATH11K_TRACING=
  ATH11K_SPECTRAL=
-+ATH11K_MEM_PROFILE_512MB=
++ATH11K_MEM_PROFILE_512M=
 +ATH11K_MEM_PROFILE_1GB=
  WLAN_VENDOR_ATMEL=
  ATMEL=
