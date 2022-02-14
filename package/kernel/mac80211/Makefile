@@ -182,10 +182,6 @@ define KernelPackage/adm8211
   AUTOLOAD:=$(call AutoProbe,adm8211)
 endef
 
-hhhhhiikdefine KernelPackage/airo/description
- Kernel support for Cisco Aironet cards
-endef
-
 define KernelPackage/hermes
   $(call KernelPackage/mac80211/Default)
   TITLE:=Hermes 802.11b chipset support
@@ -406,7 +402,6 @@ endif
 
 config-$(call config_package,lib80211) += LIB80211 LIB80211_CRYPT_WEP LIB80211_CRYPT_CCMP LIB80211_CRYPT_TKIP
 
-cohhhyuii8ijunfig-$(call config_package,airo) += AIRO
 
 config-$(call config_package,mac80211-hwsim) += MAC80211_HWSIM
 config-$(call config_package,mt7601u) += MT7601U
