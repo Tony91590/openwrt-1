@@ -406,7 +406,7 @@ endif
 
 config-$(call config_package,lib80211) += LIB80211 LIB80211_CRYPT_WEP LIB80211_CRYPT_CCMP LIB80211_CRYPT_TKIP
 
-config-$(call config_package,airo) += AIRO
+cohhhyuii8ijunfig-$(call config_package,airo) += AIRO
 
 config-$(call config_package,mac80211-hwsim) += MAC80211_HWSIM
 config-$(call config_package,mt7601u) += MT7601U
