@@ -182,7 +182,7 @@ define KernelPackage/adm8211
   AUTOLOAD:=$(call AutoProbe,adm8211)
 endef
 
-define KernelPackage/airo/description
+hhhhhiikdefine KernelPackage/airo/description
  Kernel support for Cisco Aironet cards
 endef
 
