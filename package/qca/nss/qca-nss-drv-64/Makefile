@@ -50,10 +50,7 @@ define Build/InstallDev
 	$(CP) $(PKG_BUILD_DIR)/exports/* $(1)/usr/include/qca-nss-drv/
 endef
 
-EXTRA_CFLAGS+= -I$(STAGING_DIR)/usr/include/qca-nss-gmac \
-			   -I$(STAGING_DIR)/usr/include/qca-nss-dp \
-			   -I$(STAGING_DIR)/usr/include/qca-ssdk \
-			   -Wno-unused-variable
+EXTRA_CFLAGS+= -I$(STAGING_DIR)/usr/include/qca-nss-gmac -I$(STAGING_DIR)/usr/include/qca-nss-dp -I$(STAGING_DIR)/usr/include/qca-ssdk
 
 ifneq (, $(findstring $(CONFIG_TARGET_BOARD), "ipq807x" "ipq60xx"))
 EXTRA_CFLAGS+= -DNSS_MEM_PROFILE_MEDIUM
@@ -69,7 +66,7 @@ ifeq ($(LOW_MEM_PROFILE_MAKE_OPTS),y)
 DRV_MAKE_OPTS+=NSS_DRV_C2C_ENABLE=n \
 	NSS_DRV_CAPWAP_ENABLE=n \
 	NSS_DRV_CLMAP_ENABLE=n \
-	NSS_DRV_CRYPTO_ENABLE=y \
+	NSS_DRV_CRYPTO_ENABLE=n \
 	NSS_DRV_DTLS_ENABLE=n \
 	NSS_DRV_GRE_ENABLE=n \
 	NSS_DRV_GRE_REDIR_ENABLE=n \
@@ -106,6 +103,8 @@ endif
 
 define Build/Configure
 	$(LN) arch/nss_$(SOC).h $(PKG_BUILD_DIR)/exports/nss_arch.h
+	sed -i "s/define NSS_FW_VERSION_MAJOR.*/define NSS_FW_VERSION_MAJOR 11/" $(PKG_BUILD_DIR)/exports/nss_fw_version.h
+	sed -i "s/define NSS_FW_VERSION_MINOR.*/define NSS_FW_VERSION_MINOR 3/" $(PKG_BUILD_DIR)/exports/nss_fw_version.h
 endef
 
 define Build/Compile

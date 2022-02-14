@@ -125,43 +125,36 @@
 				reg = <0x00000000 0x00040000>;
 				read-only;
 			};
-
 			partition1@40000 {
 				label = "0:MIBIB";
 				reg = <0x00040000 0x00020000>;
 				read-only;
 			};
-
 			partition2@60000 {
 				label = "0:QSEE";
 				reg = <0x00060000 0x00060000>;
 				read-only;
 			};
-
 			partition3@c0000 {
 				label = "0:CDT";
 				reg = <0x000c0000 0x00010000>;
 				read-only;
 			};
-
 			partition4@d0000 {
 				label = "0:DDRPARAMS";
 				reg = <0x000d0000 0x00010000>;
 				read-only;
 			};
-
 			partition5@e0000 {
 				label = "0:APPSBLENV";
 				reg = <0x000e0000 0x00010000>;
 				read-only;
 			};
-
 			partition6@f0000 {
 				label = "0:APPSBL";
 				reg = <0x000f0000 0x00080000>;
 				read-only;
 			};
-
 			partition7@170000 {
 				label = "0:ART";
 				reg = <0x00170000 0x00010000>;
@@ -181,6 +174,10 @@
 	status = "okay";
 };
 
+&gmac0 {
+	vlan_tag = <1 0x10>;
+};
+
 &nand {
 	pinctrl-0 = <&nand_pins>;
 	pinctrl-names = "default";
@@ -196,7 +193,6 @@
 				label = "rootfs1";
 				reg = <0x00000000 0x04000000>;
 			};
-
 			partition@40000000 {
 				label = "ubi";
 				reg = <0x04000000 0x04000000>;

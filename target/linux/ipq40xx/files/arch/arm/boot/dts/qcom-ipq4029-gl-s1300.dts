@@ -265,18 +265,15 @@
 			function = "blsp_spi0";
 			pins = "gpio13", "gpio14", "gpio15";
 		};
-
 		pinmux_cs {
 			function = "gpio";
 			pins = "gpio12";
 		};
-
 		pinconf {
 			pins = "gpio13", "gpio14", "gpio15";
 			drive-strength = <12>;
 			bias-disable;
 		};
-
 		pinconf_cs {
 			pins = "gpio12";
 			drive-strength = <2>;
@@ -291,25 +288,21 @@
 			function = "blsp_spi1";
 			bias-disable;
 		};
-
 		host_int {
 			pins = "gpio42";
 			function = "gpio";
 			input;
 		};
-
 		cs {
 			pins = "gpio45";
 			function = "gpio";
 			bias-pull-up;
 		};
-
 		wake {
 			pins = "gpio40";
 			function = "gpio";
 			output-high;
 		};
-
 		reset {
 			pins = "gpio49";
 			function = "gpio";

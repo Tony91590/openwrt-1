@@ -23,7 +23,13 @@ define Package/default-settings
   CATEGORY:=LuCI
   TITLE:=LuCI support for Default Settings
   PKGARCH:=all
-  DEPENDS:=+luci-lib-base +@LUCI_LANG_fr
+  DEPENDS:=+luci-lib-base
+endef
+
+define Package/default-settings-lang
+  $(Package/default-settings)
+  TITLE+= (Optimize for users)
+  DEPENDS:=+default-settings +@LUCI_LANG_en
 endef
 
 define Build/Compile
@@ -35,4 +41,4 @@ define Package/default-settings/install
 endef
 
 $(eval $(call BuildPackage,default-settings))
-
+$(eval $(call BuildPackage,default-settings-lang))
