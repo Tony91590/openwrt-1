@@ -45,16 +45,17 @@ define Device/meraki_mx60
   DEVICE_MODEL := MX60/MX60W
   DEVICE_PACKAGES := kmod-spi-gpio kmod-usb-ledtrig-usbport kmod-usb-dwc2 \
 		     kmod-usb-storage block-mount
-  BLOCKSIZE := 128k
+  BOARD_NAME := mx60
+  BLOCKSIZE := 63k
   IMAGES := sysupgrade.bin
-  DTB_SIZE := 20480
+  DTB_SIZE := 64512
   IMAGE_SIZE := 1021m
-  KERNEL := kernel-bin | gzip | dtb | MuImage-initramfs gzip
+  KERNEL_SIZE := 4031k
+  KERNEL := kernel-bin | gzip | uImage gzip | MerakiAdd-dtb | MerakiNAND
+  KERNEL_INITRAMFS := kernel-bin | gzip | dtb | MuImage-initramfs gzip
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
   UBINIZE_OPTS := -E 5
-  DEVICE_COMPAT_VERSION := 2.0
-  DEVICE_COMPAT_MESSAGE := uboot's bootcmd has to be updated to support standard multi-image uImages. \
-       Upgrade via sysupgrade mechanism is not possible.
+  SUPPORTED_DEVICES += mx60
 endef
 TARGET_DEVICES += meraki_mx60
 
@@ -67,14 +68,11 @@ define Device/netgear_wndap6x0
   DTB_SIZE := 32768
   IMAGE_SIZE := 27392k
   IMAGES := sysupgrade.bin factory.img
-  KERNEL_SIZE := 6080k
+  KERNEL_SIZE := 4032k
   KERNEL := dtb | kernel-bin | gzip | MuImage-initramfs gzip
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
   IMAGE/factory.img := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-ubi
   UBINIZE_OPTS := -E 5
-  DEVICE_COMPAT_VERSION := 2.0
-  DEVICE_COMPAT_MESSAGE := kernel and ubi partitions had to be resized. \
-       Upgrade via sysupgrade mechanism is not possible.
 endef
 
 define Device/netgear_wndap620

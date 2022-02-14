@@ -27,17 +27,14 @@ define Build/loader-common
 endef
 
 define Build/loader-kernel
-	$(call Build/loader-common, \
-		LOADER_DATA="$@" \
-		BOARD="$(DEVICE_NAME)" )
+	$(call Build/loader-common,LOADER_DATA="$@")
 endef
 
 define Build/loader-okli-compile
 	$(call Build/loader-common, \
 		FLASH_OFFS=$(LOADER_FLASH_OFFS) \
 		FLASH_MAX=$(LOADER_FLASH_MAX) \
-		KERNEL_MAGIC=$(LOADER_KERNEL_MAGIC) \
-		BOARD="$(DEVICE_NAME)" )
+		KERNEL_MAGIC=$(LOADER_KERNEL_MAGIC) )
 endef
 
 # Arguments: <output name> <kernel offset>
@@ -95,14 +92,6 @@ define Device/Default
   IMAGES := sysupgrade.bin
   IMAGE/sysupgrade.bin = append-kernel | pad-to $$$$(BLOCKSIZE) | \
 	append-rootfs | pad-rootfs | check-size | append-metadata
-endef
-
-define Device/loader-okli-uimage
-  LOADER_TYPE := bin
-  COMPILE := loader-$(1).bin loader-$(1).uImage
-  COMPILE/loader-$(1).bin := loader-okli-compile
-  COMPILE/loader-$(1).uImage := append-loader-okli $(1) | pad-to 64k | \
-	lzma | uImage lzma
 endef
 
 include $(SUBTARGET).mk

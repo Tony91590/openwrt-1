@@ -18,6 +18,7 @@ DEFAULT_PACKAGES += \
 	autocore-arm htop wpad-openssl zram-swap \
 	kmod-qca-nss-dp kmod-qca-nss-drv-64 \
 	kmod-qca-nss-drv-pppoe-64 kmod-qca-nss-ecm-64 \
-	nss-firmware-ipq8074  
+	nss-firmware-ipq8074 luci-app-ipsec-vpnd \
+	luci-app-unblockmusic luci-app-zerotier
 
 $(eval $(call BuildTarget))

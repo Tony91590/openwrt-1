@@ -1,37 +1,35 @@
 define Device/avm_fritz7312
-  $(Device/AVM_preloader)
+  $(Device/AVM)
   DEVICE_MODEL := FRITZ!Box 7312
   SOC := ar9
   IMAGE_SIZE := 15744k
-  LOADER_FLASH_OFFS := 0x31000
   DEVICE_PACKAGES := kmod-ath9k kmod-owl-loader wpad-basic-wolfssl \
 	kmod-ltq-adsl-ar9-mei kmod-ltq-adsl-ar9 \
 	kmod-ltq-adsl-ar9-fw-b kmod-ltq-atm-ar9 \
 	ltq-adsl-app ppp-mod-pppoa \
-	-swconfig
+	kmod-ltq-deu-ar9 -swconfig
 endef
 TARGET_DEVICES += avm_fritz7312
 
 define Device/avm_fritz7320
-  $(Device/AVM_preloader)
+  $(Device/AVM)
   DEVICE_MODEL := FRITZ!Box 7320
   DEVICE_ALT0_VENDOR := 1&1
   DEVICE_ALT0_MODEL := HomeServer
   SOC := ar9
   IMAGE_SIZE := 15744k
-  LOADER_FLASH_OFFS := 0x31000
   DEVICE_PACKAGES := kmod-ath9k kmod-owl-loader wpad-basic-wolfssl \
 	kmod-ltq-adsl-ar9-mei kmod-ltq-adsl-ar9 \
 	kmod-ltq-adsl-ar9-fw-b kmod-ltq-atm-ar9 \
 	ltq-adsl-app ppp-mod-pppoa \
-	kmod-usb-dwc2 -swconfig
+	kmod-ltq-deu-ar9 kmod-usb-dwc2 -swconfig
   SUPPORTED_DEVICES += FRITZ7320
 endef
 TARGET_DEVICES += avm_fritz7320
 
 define Device/bt_homehub-v3a
   $(Device/NAND)
-  DEVICE_VENDOR := British Telecom (BT)
+  DEVICE_VENDOR := British Telecom
   DEVICE_MODEL := Home Hub 3
   DEVICE_VARIANT := Type A
   BOARD_NAME := BTHOMEHUBV3A
@@ -40,6 +38,7 @@ define Device/bt_homehub-v3a
   DEVICE_PACKAGES := kmod-usb-dwc2 \
 	kmod-ltq-adsl-ar9-mei kmod-ltq-adsl-ar9 \
 	kmod-ltq-adsl-ar9-fw-a kmod-ltq-atm-ar9 \
+	kmod-ltq-deu-ar9 \
 	ltq-adsl-app ppp-mod-pppoa \
 	kmod-ath9k kmod-owl-loader wpad-basic-wolfssl \
 	uboot-envtools
@@ -92,10 +91,10 @@ define Device/netgear_dgn3500
 	factory-na.img factory.img
   IMAGE/sysupgrade-na.bin := \
 	append-kernel | append-rootfs | dgn3500-sercom-footer 0x0 "NA" | \
-	pad-rootfs | check-size | append-metadata
+	pad-rootfs | append-metadata | check-size
   IMAGE/sysupgrade.bin := \
 	append-kernel | append-rootfs | dgn3500-sercom-footer 0x0 "WW" | \
-	pad-rootfs | check-size | append-metadata
+	pad-rootfs | append-metadata | check-size
   IMAGE/factory-na.img := \
 	pad-extra $(DGN3500_KERNEL_OFFSET_DEC) | append-kernel | append-rootfs | \
 	dgn3500-sercom-footer $(DGN3500_KERNEL_OFFSET_HEX) "NA" | pad-rootfs | \
@@ -108,7 +107,8 @@ define Device/netgear_dgn3500
 	kmod-ath9k kmod-owl-loader wpad-basic-wolfssl \
 	kmod-ltq-adsl-ar9-mei kmod-ltq-adsl-ar9 \
 	kmod-ltq-adsl-ar9-fw-a kmod-ltq-atm-ar9 \
-	ltq-adsl-app ppp-mod-pppoa
+	ltq-adsl-app ppp-mod-pppoa \
+	kmod-ltq-deu-ar9
   SUPPORTED_DEVICES += DGN3500
 endef
 TARGET_DEVICES += netgear_dgn3500
@@ -121,7 +121,7 @@ define Device/netgear_dgn3500b
   IMAGES += factory.img
   IMAGE/sysupgrade.bin := \
 	append-kernel | append-rootfs | dgn3500-sercom-footer 0x0 "DE" | \
-	pad-rootfs | check-size | append-metadata
+	pad-rootfs | append-metadata | check-size
   IMAGE/factory.img := \
 	pad-extra $(DGN3500_KERNEL_OFFSET_DEC) | append-kernel | append-rootfs | \
 	dgn3500-sercom-footer $(DGN3500_KERNEL_OFFSET_HEX) "DE" | pad-rootfs | \
@@ -130,7 +130,8 @@ define Device/netgear_dgn3500b
 	kmod-ath9k kmod-owl-loader wpad-basic-wolfssl \
 	kmod-ltq-adsl-ar9-mei kmod-ltq-adsl-ar9 \
 	kmod-ltq-adsl-ar9-fw-b kmod-ltq-atm-ar9 \
-	ltq-adsl-app ppp-mod-pppoa
+	ltq-adsl-app ppp-mod-pppoa \
+	kmod-ltq-deu-ar9
   SUPPORTED_DEVICES += DGN3500B
 endef
 TARGET_DEVICES += netgear_dgn3500b
@@ -144,7 +145,7 @@ define Device/zte_h201l
 	kmod-ltq-adsl-ar9-mei kmod-ltq-adsl-ar9 \
 	kmod-ltq-adsl-ar9-fw-b kmod-ltq-atm-ar9 \
 	ltq-adsl-app ppp-mod-pppoe \
-	kmod-usb-dwc2 kmod-usb-ledtrig-usbport \
+	kmod-ltq-deu-ar9 kmod-usb-dwc2 kmod-usb-ledtrig-usbport \
 	kmod-ltq-tapi kmod-ltq-vmmc
   SUPPORTED_DEVICES += H201L
 endef
@@ -160,7 +161,7 @@ define Device/zyxel_p-2601hn
 	kmod-ltq-adsl-ar9-mei kmod-ltq-adsl-ar9 \
 	kmod-ltq-adsl-ar9-fw-b kmod-ltq-atm-ar9 \
 	ltq-adsl-app ppp-mod-pppoe \
-	kmod-usb-dwc2
+	kmod-ltq-deu-ar9 kmod-usb-dwc2
   SUPPORTED_DEVICES += P2601HNFX
 endef
 TARGET_DEVICES += zyxel_p-2601hn
