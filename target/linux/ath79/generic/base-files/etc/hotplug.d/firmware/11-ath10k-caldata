@@ -25,7 +25,6 @@ case "$FIRMWARE" in
 	comfast,cf-wr650ac-v2|\
 	devolo,dlan-pro-1200plus-ac|\
 	devolo,magic-2-wifi|\
-	joyit,jt-or750i|\
 	qxwlan,e1700ac-v2-8m|\
 	qxwlan,e1700ac-v2-16m|\
 	qxwlan,e600gac-v2-8m|\
@@ -126,7 +125,9 @@ case "$FIRMWARE" in
 		ath10k_patch_mac $(macaddr_add $(mtd_get_mac_binary info 0x8) -1)
 		;;
 	tplink,archer-c5-v1|\
-	tplink,tl-wdr7500-v3)
+	tplink,archer-c7-v2|\
+	tplink,tl-wdr7500-v3|\
+	tplink,tl-wdr7500-v3-16MB)
 		caldata_extract "art" 0x5000 0x844
 		ath10k_patch_mac $(macaddr_add $(mtd_get_mac_binary u-boot 0x1fc00) -1)
 		;;
@@ -139,7 +140,6 @@ case "$FIRMWARE" in
 		caldata_extract "art" 0x5000 0x844
 		ath10k_patch_mac $(macaddr_add $(mtd_get_mac_binary romfs 0xf100) 2)
 		;;
-	tplink,eap225-v1|\
 	tplink,eap245-v1|\
 	tplink,re450-v2|\
 	tplink,re450-v3|\
@@ -155,6 +155,10 @@ case "$FIRMWARE" in
 	tplink,re450-v1)
 		caldata_extract "art" 0x5000 0x844
 		ath10k_patch_mac $(macaddr_add $(cat /sys/class/net/eth0/address) -2)
+		;;
+	tplink,tl-wdr6500-v2)
+		caldata_extract "art" 0x5000 0x844
+		ath10k_patch_mac $(macaddr_add $(mtd_get_mac_binary u-boot 0x0fc00) -2)
 		;;
 	tplink,tl-wpa8630-v1)
 		caldata_extract "art" 0x5000 0x844
@@ -229,16 +233,9 @@ case "$FIRMWARE" in
 	tplink,archer-c60-v2|\
 	tplink,archer-c60-v3|\
 	tplink,archer-c6-v2|\
-	tplink,archer-c6-v2-us|\
-	tplink,tl-wa1201-v2)
+	tplink,archer-c6-v2-us)
 		caldata_extract "art" 0x5000 0x2f20
 		ath10k_patch_mac $(macaddr_add $(mtd_get_mac_binary info 0x8) -1)
-		ln -sf /lib/firmware/ath10k/pre-cal-pci-0000\:00\:00.0.bin \
-			/lib/firmware/ath10k/QCA9888/hw2.0/board.bin
-		;;
-	tplink,cpe710-v1)
-		caldata_extract "art" 0x5000 0x2f20
-		ath10k_patch_mac $(mtd_get_mac_binary info 0x8)
 		ln -sf /lib/firmware/ath10k/pre-cal-pci-0000\:00\:00.0.bin \
 			/lib/firmware/ath10k/QCA9888/hw2.0/board.bin
 		;;
@@ -262,7 +259,6 @@ case "$FIRMWARE" in
 		ln -sf /lib/firmware/ath10k/pre-cal-pci-0000\:00\:00.0.bin \
 			/lib/firmware/ath10k/QCA9984/hw1.0/board.bin
 		;;
-	xwrt,csac|\
 	yuncore,a782|\
 	yuncore,xd4200)
 		caldata_extract "art" 0x5000 0x2f20

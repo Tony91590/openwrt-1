@@ -45,20 +45,23 @@ endef
 
 $(eval $(call KernelPackage,drm-rockchip))
 
-define KernelPackage/saradc-rockchip
-  SUBMENU:=$(IIO_MENU)
-  TITLE:=Rockchip SARADC support
-  DEPENDS:=@TARGET_rockchip +kmod-industrialio-triggered-buffer
+define KernelPackage/gpu-lima
+  SUBMENU:=$(VIDEO_MENU)
+  TITLE:=Mali-4xx GPU support
+  DEPENDS:=@TARGET_rockchip +kmod-drm
   KCONFIG:= \
-	CONFIG_RESET_CONTROLLER=y \
-	CONFIG_ROCKCHIP_SARADC
+	CONFIG_DRM_VGEM \
+	CONFIG_DRM_GEM_CMA_HELPER=y \
+	CONFIG_DRM_LIMA
   FILES:= \
-	$(LINUX_DIR)/drivers/iio/adc/rockchip_saradc.ko
-  AUTOLOAD:=$(call AutoProbe,rockchip_saradc)
+	$(LINUX_DIR)/drivers/gpu/drm/vgem/vgem.ko \
+	$(LINUX_DIR)/drivers/gpu/drm/scheduler/gpu-sched.ko \
+	$(LINUX_DIR)/drivers/gpu/drm/lima/lima.ko
+  AUTOLOAD:=$(call AutoProbe,lima vgem)
 endef
 
-define KernelPackage/saradc-rockchip/description
-  Support for the SARADC found in SoCs from Rockchip
+define KernelPackage/gpu-lima/description
+  Open-source reverse-engineered driver for Mali-4xx GPUs
 endef
 
-$(eval $(call KernelPackage,saradc-rockchip))
+$(eval $(call KernelPackage,gpu-lima))

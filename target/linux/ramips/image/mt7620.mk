@@ -61,18 +61,13 @@ TARGET_DEVICES += alfa-network_tube-e4g
 
 define Device/amit_jboot
   DLINK_IMAGE_OFFSET := 0x10000
-  KERNEL := $(KERNEL_DTB) | uImage lzma -M 0x4f4b4c49
-  LOADER_FLASH_OFFS := 0x20000
-  LOADER_TYPE := bin
-  COMPILE := loader-$(1).bin
-  COMPILE/loader-$(1).bin := loader-okli-compile | pad-to 64k | lzma | \
-	pad-to 65480
+  KERNEL := $(KERNEL_DTB)
+  KERNEL_SIZE := 2048k
   IMAGES += factory.bin
-  IMAGE/sysupgrade.bin := append-kernel | append-rootfs | mkdlinkfw-loader | \
-	pad-rootfs | append-metadata
-  IMAGE/factory.bin := append-kernel | append-rootfs | mkdlinkfw-loader | \
-	pad-rootfs | mkdlinkfw-factory
+  IMAGE/sysupgrade.bin := mkdlinkfw | pad-rootfs | append-metadata
+  IMAGE/factory.bin := mkdlinkfw | pad-rootfs | mkdlinkfw-factory
   DEVICE_PACKAGES := jboot-tools kmod-usb2 kmod-usb-ohci
+  DEFAULT := n
 endef
 
 define Device/asus_rp-n53
@@ -199,7 +194,6 @@ define Device/dlink_dir-510l
   $(Device/amit_jboot)
   SOC := mt7620a
   IMAGE_SIZE := 14208k
-  LOADER_FLASH_OFFS := 0x220000
   DEVICE_VENDOR := D-Link
   DEVICE_MODEL := DIR-510L
   DEVICE_PACKAGES += kmod-mt76x0e
@@ -313,33 +307,6 @@ define Device/dlink_dwr-960
 	kmod-mt76x0e
 endef
 TARGET_DEVICES += dlink_dwr-960
-
-define Device/domywifi_dm202
-  SOC := mt7620a
-  IMAGE_SIZE := 16064k
-  DEVICE_VENDOR := DomyWifi
-  DEVICE_MODEL := DM202
-  DEVICE_PACKAGES := kmod-mt76x0e kmod-sdhci-mt7620 kmod-usb2 kmod-usb-ohci
-endef
-TARGET_DEVICES += domywifi_dm202
-
-define Device/domywifi_dm203
-  SOC := mt7620a
-  IMAGE_SIZE := 16064k
-  DEVICE_VENDOR := DomyWifi
-  DEVICE_MODEL := DM203
-  DEVICE_PACKAGES := kmod-mt76x0e kmod-sdhci-mt7620 kmod-usb2 kmod-usb-ohci
-endef
-TARGET_DEVICES += domywifi_dm203
-
-define Device/domywifi_dw22d
-  SOC := mt7620a
-  IMAGE_SIZE := 16064k
-  DEVICE_VENDOR := DomyWifi
-  DEVICE_MODEL := DW22D
-  DEVICE_PACKAGES := kmod-mt76x0e kmod-sdhci-mt7620 kmod-usb2 kmod-usb-ohci
-endef
-TARGET_DEVICES += domywifi_dw22d
 
 define Device/dovado_tiny-ac
   SOC := mt7620a
@@ -558,7 +525,6 @@ define Device/iodata_wn-ac1167gr
   IMAGE/factory.bin := $$(sysupgrade_bin) | check-size | \
 	elx-header 01040016 8844A2D168B45A2D
   DEVICE_PACKAGES := kmod-mt76x2
-  DEFAULT := n
 endef
 TARGET_DEVICES += iodata_wn-ac1167gr
 
@@ -571,7 +537,6 @@ define Device/iodata_wn-ac733gr3
   IMAGE/factory.bin := $$(sysupgrade_bin) | check-size | \
 	elx-header 01040006 8844A2D168B45A2D
   DEVICE_PACKAGES := kmod-mt76x0e kmod-switch-rtl8367b
-  DEFAULT := n
 endef
 TARGET_DEVICES += iodata_wn-ac733gr3
 
@@ -842,27 +807,6 @@ define Device/ohyeah_oy-0001
 endef
 TARGET_DEVICES += ohyeah_oy-0001
 
-define Device/phicomm_k2-v22.4
-  SOC := mt7620a
-  IMAGE_SIZE := 7872k
-  DEVICE_VENDOR := Phicomm
-  DEVICE_MODEL := K2
-  DEVICE_VARIANT:= v22.4 or older
-  DEVICE_PACKAGES := kmod-mt76x2
-  SUPPORTED_DEVICES += psg1218 psg1218a phicomm,psg1218a
-endef
-TARGET_DEVICES += phicomm_k2-v22.4
-
-define Device/phicomm_k2-v22.5
-  SOC := mt7620a
-  IMAGE_SIZE := 7552k
-  DEVICE_VENDOR := Phicomm
-  DEVICE_MODEL := K2
-  DEVICE_VARIANT:= v22.5 or newer
-  DEVICE_PACKAGES := kmod-mt76x2
-endef
-TARGET_DEVICES += phicomm_k2-v22.5
-
 define Device/phicomm_k2g
   SOC := mt7620a
   IMAGE_SIZE := 7552k
@@ -881,6 +825,17 @@ define Device/phicomm_psg1208
   SUPPORTED_DEVICES += psg1208
 endef
 TARGET_DEVICES += phicomm_psg1208
+
+define Device/phicomm_psg1218a
+  SOC := mt7620a
+  IMAGE_SIZE := 7872k
+  DEVICE_VENDOR := Phicomm
+  DEVICE_MODEL := PSG1218
+  DEVICE_VARIANT:= Ax
+  DEVICE_PACKAGES := kmod-mt76x2
+  SUPPORTED_DEVICES += psg1218 psg1218a
+endef
+TARGET_DEVICES += phicomm_psg1218a
 
 define Device/phicomm_psg1218b
   SOC := mt7620a
@@ -1008,20 +963,6 @@ define Device/sercomm_na930
   SUPPORTED_DEVICES += na930
 endef
 TARGET_DEVICES += sercomm_na930
-
-define Device/sitecom_wlr-4100-v1-002
-  SOC := mt7620a
-  BLOCKSIZE := 4k
-  IMAGE_SIZE := 7744k
-  IMAGES += factory.dlf
-  IMAGE/factory.dlf := $$(sysupgrade_bin) | check-size | \
-	senao-header -r 0x0222 -p 0x104A -t 2
-  DEVICE_VENDOR := Sitecom
-  DEVICE_MODEL := WLR-4100
-  DEVICE_VARIANT := v1 002
-  DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci uboot-envtools
-endef
-TARGET_DEVICES += sitecom_wlr-4100-v1-002
 
 define Device/tplink_archer-c20i
   $(Device/tplink-v2)
@@ -1181,6 +1122,23 @@ define Device/xiaomi_miwifi-mini
   SUPPORTED_DEVICES += miwifi-mini
 endef
 TARGET_DEVICES += xiaomi_miwifi-mini
+
+define Device/xiaomi_miwifi-r3
+  SOC := mt7620a
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  KERNEL_SIZE := 4096k
+  IMAGE_SIZE := 32768k
+  UBINIZE_OPTS := -E 5
+  IMAGES += kernel1.bin rootfs0.bin
+  IMAGE/kernel1.bin := append-kernel | check-size $$$$(KERNEL_SIZE)
+  IMAGE/rootfs0.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+  DEVICE_VENDOR := Xiaomi
+  DEVICE_MODEL := Mi Router R3
+  DEVICE_PACKAGES := kmod-mt76x2 kmod-usb2 kmod-usb-ohci uboot-envtools
+endef
+TARGET_DEVICES += xiaomi_miwifi-r3
 
 define Device/youku_yk-l1
   SOC := mt7620a
