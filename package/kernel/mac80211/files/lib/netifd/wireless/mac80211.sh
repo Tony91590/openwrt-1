@@ -137,7 +137,7 @@ mac80211_hostapd_setup_base() {
 	[ -n "$acs_exclude_dfs" ] && [ "$acs_exclude_dfs" -gt 0 ] &&
 		append base_cfg "acs_exclude_dfs=1" "$N"
 
-	json_get_vars noscan ht_coex
+	json_get_vars noscan ht_coex vendor_vht
 	json_get_values ht_capab_list ht_capab tx_burst
 	json_get_values channel_list channels
 
@@ -149,9 +149,6 @@ mac80211_hostapd_setup_base() {
 	[ "$noscan" -gt 0 ] && hostapd_noscan=1
 	[ "$tx_burst" = 0 ] && tx_burst=
 
-	chan_ofs=0
-	[ "$band" = "6g" ] && chan_ofs=1
-
 	ieee80211n=1
 	ht_capab=
 	case "$htmode" in
@@ -159,7 +156,7 @@ mac80211_hostapd_setup_base() {
 		HT40*|VHT40|VHT80|VHT160|HE40|HE80|HE160)
 			case "$hwmode" in
 				a)
-					case "$(( (($channel / 4) + $chan_ofs) % 2 ))" in
+					case "$(( ($channel / 4) % 2 ))" in
 						1) ht_capab="[HT40+]";;
 						0) ht_capab="[HT40-]";;
 					esac
@@ -228,6 +225,8 @@ mac80211_hostapd_setup_base() {
 	enable_ac=0
 	vht_oper_chwidth=0
 	vht_center_seg0=
+	chan_ofs=0
+	[ "$band" = "6g" ] && chan_ofs=1
 
 	idx="$channel"
 	case "$htmode" in
@@ -266,6 +265,7 @@ mac80211_hostapd_setup_base() {
 				case "$channel" in
 					36|40|44|48|52|56|60|64) idx=50;;
 					100|104|108|112|116|120|124|128) idx=114;;
+			                149|153|157|161|165|169|173|177) idx=163;;
 				esac
 			fi
 			enable_ac=1
@@ -283,7 +283,7 @@ mac80211_hostapd_setup_base() {
 	}
 	[ "$hwmode" = "a" ] || enable_ac=0
 
-	if [ "$enable_ac" != "0" ]; then
+	if [ "$enable_ac" != "0" -o "$vendor_vht" = "1" ]; then
 		json_get_vars \
 			rxldpc:1 \
 			short_gi_80:1 \
@@ -641,7 +641,7 @@ mac80211_iw_interface_add() {
 		rc="$?"
 	}
 
-	[ "$rc" != 0 ] && echo "Failed to create interface $ifname"
+	[ "$rc" != 0 ] && wireless_setup_failed INTERFACE_CREATION_FAILED
 	return $rc
 }
 
