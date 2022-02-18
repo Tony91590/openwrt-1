@@ -193,7 +193,6 @@ detect_mac80211() {
 EOF
 		uci -q commit wireless
 
-
 		devidx=$(($devidx + 1))
 	done
 }
