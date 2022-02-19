@@ -1,6 +1,6 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=nss-firmware
+PKG_NAME:=ath11k-firmware
 PKG_VERSION:=19
 
 PKG_MAINTAINER:=John Crispin <john@phrozen.org>
