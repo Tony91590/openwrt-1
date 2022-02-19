@@ -23,7 +23,7 @@ define Build/Compile
 
 endef
 
-define Package/nss-firmware-ipq8074/install
+define Package/ath11k-firmware-ipq8074/install
 	$(INSTALL_DIR) $(1)/lib/firmware/IPQ8074/
 	$(INSTALL_DATA) ./files/IPQ8074/* \
 		$(1)/lib/firmware/IPQ8074/
