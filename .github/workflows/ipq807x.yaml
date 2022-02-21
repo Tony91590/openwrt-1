@@ -20,14 +20,6 @@ jobs:
                 echo "CONFIG_TARGET_ipq807x=y" > .config
                 echo "CONFIG_TARGET_ipq807x_generic=y" >> .config
                 echo "CONFIG_TARGET_ipq807x_generic_DEVICE_xiaomi_ax3600=y" >> .config
-                echo "CONFIG_TARGET_PER_DEVICE_ROOTFS=y\n" >> .config
-                echo "CONFIG_TARGET_ROOTFS_INITRAMFS=y\n" >> .config
-                echo "CONFIG_TARGET_INITRAMFS_COMPRESSION_ZSTD=y\n" >> .config
-                echo "CONFIG_PACKAGE_luci=y\n" >> .config
-                echo "CONFIG_PACKAGE_nss-firmware-ipq8074=y\n" >> .config
-                echo "CONFIG_PACKAGE_kmod-qca-nss-drv-pppoe=y\n" >> .config
-                echo "CONFIG_PACKAGE_kmod-qca-nss-ecm=y\n" >> .config
-                echo "CONFIG_PACKAGE_kmod-qca-nss-drv-bridge-mgr=y\n" >> .config
                 make defconfig
 
             - name: Download package sources
