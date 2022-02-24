@@ -12,7 +12,7 @@ PKG_CONFIG_DEPENDS += \
 	CONFIG_ATH9K_TX99 \
 	CONFIG_ATH10K_LEDS \
 	CONFIG_ATH10K_THERMAL \
-	CONFIG_ATH11K_MEM_PROFILE_512M \
+	CONFIG_ATH11K_MEM_PROFILE_512MB \
 	CONFIG_ATH_USER_REGD
 
 ifdef CONFIG_PACKAGE_MAC80211_DEBUGFS
@@ -311,7 +311,7 @@ define KernelPackage/ath11k/config
                depends on PACKAGE_kmod-ath11k
                default y if TARGET_ipq807x
 
-       config ATH11K_MEM_PROFILE_512M
+       config ATH11K_MEM_PROFILE_512MB
                bool "Enable 512MB profile"
                depends on PACKAGE_kmod-ath11k
                default y if TARGET_ipq807x_generic_DEVICE_redmi_ax6 || TARGET_ipq807x_generic_DEVICE_xiaomi_ax3600 || TARGET_ipq807x_generic_DEVICE_zte_mf269
