@@ -172,7 +172,6 @@ detect_mac80211() {
 			set wireless.radio2.he_su_beamformee=1
 			set wireless.radio${devidx}.disabled=0
 			set wireless.radio0.disabled=1
-			set wireless.radio${devidx}.country=US
 			
 			set wireless.default_radio${devidx}=wifi-iface
 			set wireless.default_radio${devidx}.device=radio${devidx}
