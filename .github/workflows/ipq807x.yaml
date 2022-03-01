@@ -29,6 +29,7 @@ jobs:
                 echo "CONFIG_DEFAULT_luci-app-upnp=y" >> .config
                 echo "CONFIG_PACKAGE_qos-scripts=y" >> .config
                 echo "CONFIG_PACKAGE_kmod-batman-adv=y" >> .config
+                echo "CONFIG_DEFAULT_htop=y" >> .config
                 make defconfig
 
             - name: Download package sources
