@@ -1,9 +1,9 @@
-name: Build IPQ807x
+name: Build Xiaomi AX3600
 on: [push]
 
 jobs:
     build:
-        name: Prepare and build IPQ807x generic images
+        name: Prepare and build Xiaomi AX3600
         runs-on: ubuntu-latest
 
         steps:
@@ -15,7 +15,7 @@ jobs:
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
 
-            - name: Generate config for IPQ807x Generic
+            - name: Generate config for Xiaomi AX3600
               run: |
                 echo "CONFIG_TARGET_ipq807x=y" > .config
                 echo "CONFIG_TARGET_ipq807x_generic=y" >> .config
@@ -51,13 +51,13 @@ jobs:
                 make V=s
 
             - name: TAR output
-              run: tar -cvf ipq807xx-images.tar bin/targets/ipq807x/generic
+              run: tar -cvf Xiaomi-AX3600-images.tar bin/targets/ipq807x/generic
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v2
               with:
-                name: ipq807x-images
-                path: ipq807xx-images.tar
+                name: Xiaomi AX3600 images
+                path: Xiaomi-AX3600-images.tar
 
     release:
           name: Make a release
@@ -68,16 +68,16 @@ jobs:
             - name: Download the image artifacts
               uses: actions/download-artifact@v2
               with:
-                name: ipq807x-images
+                name: Xiaomi-AX3600-images
 
             - name: Extract the image artifacts
-              run: tar xf ipq807xx-images.tar
+              run: tar xf Xiaomi-AX3600-images.tar
 
             - name: Create a release
               uses: "marvinpinto/action-automatic-releases@latest"
               with:
                 repo_token: "${{ secrets.GITHUB_TOKEN }}"
-                prerelease: true
+                release: true
                 title: "Updated built images"
-                automatic_release_tag: "ipq807x-latest"
+                automatic_release_tag: "Xiaomi-AX3600-image"
                 files: bin/targets/ipq807x/generic/*
