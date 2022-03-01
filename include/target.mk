@@ -57,6 +57,7 @@ DEFAULT_PACKAGES.router:=\
 	firewall \
 	iptables \
 	ipv6helper \
+        igmpproxy \
 	ppp \
 	ppp-mod-pppoe
 # For easy usage
