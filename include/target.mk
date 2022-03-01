@@ -57,6 +57,7 @@ DEFAULT_PACKAGES.router:=\
 	firewall \
 	iptables \
 	ipv6helper \
+        iptables-mod-fullconenat \
 	ppp \
 	ppp-mod-pppoe
 # For easy usage
