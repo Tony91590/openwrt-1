@@ -69,7 +69,6 @@ DEFAULT_PACKAGES.tweak:=\
 	kmod-nf-nathelper-extra \
 	kmod-batman-adv \
 	luci \
-	htop \
 	luci-app-qos \
 	luci-app-upnp \
 	luci-app-ttyd \
