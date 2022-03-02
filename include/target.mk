@@ -68,6 +68,7 @@ DEFAULT_PACKAGES.tweak:=\
 	kmod-nf-nathelper \
 	kmod-nf-nathelper-extra \
 	luci \
+	luci-app-upnp \
 	luci-app-cpufreq \
 	luci-app-turboacc \
 	luci-compat \
