@@ -31,7 +31,7 @@ jobs:
                 echo "CONFIG_PACKAGE_kmod-batman-adv=y" >> .config
                 echo "CONFIG_DEFAULT_htop=y" >> .config
                 make defconfig
-                
+
             - name: Download package sources
               run: make download V=s
 
@@ -39,10 +39,12 @@ jobs:
               run: |
                 make tools/install -j$(nproc) V=s || \
                 make tools/install V=s
+                
             - name: Build toolchain
               run: |
                 make toolchain/install -j$(nproc) V=s || \
                 make toolchain/install V=s
+                
             - name: Build target images
               run: |
                 make -j$(nproc) V=s || \
