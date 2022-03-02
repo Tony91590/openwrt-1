@@ -23,10 +23,10 @@ jobs:
                 echo "CONFIG_PACKAGE_luci-app-turboacc=y" >> .config
                 echo "CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_SHORTCUT_FE_DRV=y" >> .config
                 echo "CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_BBR_CCA=y" >> .config
-                echo "CONFIG_DEFAULT_luci-theme-argon=y" >> .config
+                echo "CONFIG_PACKAGE_luci-theme-argon=y" >> .config
                 echo "CONFIG_PACKAGE_luci-app-ttyd=y" >> .config
                 echo "CONFIG_PACKAGE_luci-app-qos=y" >> .config
-                echo "CONFIG_DEFAULT_luci-app-upnp=y" >> .config
+                echo "CONFIG_PACKAGE_miniupnpd=y" >> .config
                 echo "CONFIG_PACKAGE_qos-scripts=y" >> .config
                 echo "CONFIG_PACKAGE_kmod-batman-adv=y" >> .config
                 echo "CONFIG_DEFAULT_htop=y" >> .config
