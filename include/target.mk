@@ -67,14 +67,20 @@ DEFAULT_PACKAGES.tweak:=\
 	kmod-ipt-raw \
 	kmod-nf-nathelper \
 	kmod-nf-nathelper-extra \
+	kmod-batman-adv \
 	luci \
+	htop \
+	luci-app-qos \
 	luci-app-upnp \
+	luci-app-ttyd \
 	luci-app-cpufreq \
+	luci-app-turboacc_INCLUDE_SHORTCUT_FE_DRV \
 	luci-app-turboacc \
+	luci-theme-argon \
 	luci-compat \
 	luci-lib-base \
 	luci-lib-fs \
-	luci-lib-ipkg
+	luci-lib-ipkg 
 
 ifneq ($(DUMP),)
   all: dumpinfo
