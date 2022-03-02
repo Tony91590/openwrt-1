@@ -49,6 +49,7 @@ jobs:
               run: |
                 make -j$(nproc) V=s || \
                 make V=s
+                
             - name: TAR output
               run: tar -cvf ipq807xx-images.tar bin/targets/ipq807x/generic
 
