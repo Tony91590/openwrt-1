@@ -31,7 +31,7 @@ jobs:
                 echo "CONFIG_PACKAGE_kmod-batman-adv=y" >> .config
                 echo "CONFIG_DEFAULT_htop=y" >> .config
                 make defconfig
-
+                
             - name: Download package sources
               run: make download V=s
 
@@ -39,25 +39,22 @@ jobs:
               run: |
                 make tools/install -j$(nproc) V=s || \
                 make tools/install V=s
-
             - name: Build toolchain
               run: |
                 make toolchain/install -j$(nproc) V=s || \
                 make toolchain/install V=s
-
             - name: Build target images
               run: |
                 make -j$(nproc) V=s || \
                 make V=s
-
             - name: TAR output
-              run: tar -cvf Xiaomi-AX3600-images.tar bin/targets/ipq807x/generic
+              run: tar -cvf ipq807xx-images.tar bin/targets/ipq807x/generic
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v2
               with:
-                name: Xiaomi-AX3600-images
-                path: Xiaomi-AX3600-images.tar
+                name: ipq807x-images
+                path: ipq807xx-images.tar
 
     release:
           name: Make a release
@@ -68,16 +65,16 @@ jobs:
             - name: Download the image artifacts
               uses: actions/download-artifact@v2
               with:
-                name: Xiaomi-AX3600-images
+                name: ipq807x-images
 
             - name: Extract the image artifacts
-              run: tar xf Xiaomi-AX3600-images.tar
+              run: tar xf ipq807xx-images.tar
 
             - name: Create a release
               uses: "marvinpinto/action-automatic-releases@latest"
               with:
                 repo_token: "${{ secrets.GITHUB_TOKEN }}"
-                release: true
+                prerelease: true
                 title: "Updated built images"
-                automatic_release_tag: "Xiaomi-AX3600-image"
+                automatic_release_tag: "ipq807x-latest"
                 files: bin/targets/ipq807x/generic/*
