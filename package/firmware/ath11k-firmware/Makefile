@@ -15,7 +15,7 @@ define Package/ath11k-firmware-default
 endef
 
 define Package/ath11k-firmware-ipq8074
-$(Package/nss-firmware-default)
+$(Package/ath11k-firmware-default)
   TITLE:=ath11k firmware for IPQ8074 devices
 endef
 
