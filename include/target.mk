@@ -63,6 +63,7 @@ DEFAULT_PACKAGES.router:=\
 # For easy usage
 DEFAULT_PACKAGES.tweak:=\
 	block-mount \
+	coremark \
 	default-settings \
 	kmod-ipt-raw \
 	kmod-nf-nathelper \
