@@ -20,6 +20,10 @@ jobs:
                 echo "CONFIG_TARGET_ipq807x=y" > .config
                 echo "CONFIG_TARGET_ipq807x_generic=y" >> .config
                 echo "CONFIG_TARGET_ipq807x_generic_DEVICE_xiaomi_ax3600=y" >> .config
+                echo "CONFIG_PACKAGE_ubi-utils=y" >> .config
+                echo "CONFIG_TARGET_UBIFS_FREE_SPACE_FIXUP=y" >> .config
+                echo "CONFIG_TARGET_SQUASHFS_BLOCK_SIZE=1024" >> .config
+                echo "CONFIG_TARGET_ROOTFS_SQUASHFS=y" >> .config
                 make defconfig
 
             - name: Download package sources
