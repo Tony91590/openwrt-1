@@ -79,7 +79,7 @@ DEFAULT_PACKAGES.tweak:=\
 	luci-compat \
 	luci-lib-base \
 	luci-lib-fs \
-	luci-lib-ipkg 
+	luci-lib-ipkg
 
 ifneq ($(DUMP),)
   all: dumpinfo
