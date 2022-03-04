@@ -23,7 +23,6 @@ jobs:
                 echo "CONFIG_FSTOOLS_UBIFS_EXTROOT=n" >> .config
                 echo "CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_DNSPROXY=n" >> .config
                 echo "CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_DNSFORWARDER=n >> .config
-                echo "CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_BBR_CCA=n" >> .config
                 make defconfig
 
             - name: Download package sources
