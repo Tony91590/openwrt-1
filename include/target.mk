@@ -57,7 +57,6 @@ DEFAULT_PACKAGES.router:=\
 	firewall \
 	ip6tables \
 	iptables \
-	kmod-ipt-offload \
         iptables-mod-fullconenat \
 	odhcp6c \
 	odhcpd-ipv6only \
@@ -77,7 +76,9 @@ DEFAULT_PACKAGES.tweak:=\
 	luci-app-upnp \
 	luci-app-ttyd \
 	luci-app-cpufreq \
-	luci-app-turboacc_INCLUDE_SHORTCUT_FE_DRV \
+	luci-app-turboacc_INCLUDE_OFFLOADING \
+        luci-app-turboacc_INCLUDE_SHORTCUT_FE \
+        luci-app-turboacc_INCLUDE_SHORTCUT_FE_DRV \
 	luci-app-turboacc \
 	luci-theme-argon \
 	luci-compat \
