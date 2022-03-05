@@ -14,7 +14,7 @@
  textofs-$(CONFIG_ARCH_AXXIA) := 0x00308000
 --- a/arch/arm/boot/compressed/head.S
 +++ b/arch/arm/boot/compressed/head.S
-@@ -269,7 +269,8 @@ not_angel:
+@@ -270,7 +270,8 @@ not_angel:
  		mov	r4, pc
  		and	r4, r4, #0xf8000000
  		/* Determine final kernel image address. */
@@ -86,7 +86,7 @@
  endif
 --- a/arch/arm64/Kconfig
 +++ b/arch/arm64/Kconfig
-@@ -1831,6 +1831,16 @@ config STACKPROTECTOR_PER_TASK
+@@ -1832,6 +1832,16 @@ config STACKPROTECTOR_PER_TASK
  	def_bool y
  	depends on STACKPROTECTOR && CC_HAVE_STACKPROTECTOR_SYSREG
  
@@ -1264,7 +1264,7 @@
  };
 --- a/drivers/mtd/nand/raw/qcom_nandc.c
 +++ b/drivers/mtd/nand/raw/qcom_nandc.c
-@@ -3063,6 +3063,10 @@ static const struct of_device_id qcom_na
+@@ -3061,6 +3061,10 @@ static const struct of_device_id qcom_na
  		.data = &ipq4019_nandc_props,
  	},
  	{
@@ -1674,7 +1674,7 @@
  
  	if (np)
  		ret = platform_get_irq_byname(pdev_irq, name);
-@@ -852,18 +852,19 @@ static int dwc3_qcom_remove(struct platf
+@@ -855,18 +855,19 @@ static int dwc3_qcom_remove(struct platf
  
  	of_platform_depopulate(dev);
  

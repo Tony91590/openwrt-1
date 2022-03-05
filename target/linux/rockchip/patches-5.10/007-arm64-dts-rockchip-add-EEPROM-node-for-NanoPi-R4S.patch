@@ -19,7 +19,7 @@ Signed-off-by: Tianling Shen <cnsztl@gmail.com>
  
 +&gmac {
 +	nvmem-cells = <&mac_address>;
-+	nvmem-cell-names = "mac-address";
++	nvmem-cells-names = "mac-address";
 +};
 +
 +&i2c2 {
