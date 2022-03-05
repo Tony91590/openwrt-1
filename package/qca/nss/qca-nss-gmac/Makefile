@@ -17,7 +17,7 @@ define KernelPackage/qca-nss-gmac
   SUBMENU:=Network Devices
   DEPENDS:=@TARGET_ipq807x||TARGET_ipq_ipq806x @LINUX_5_4
   TITLE:=Kernel driver for NSS gmac
-  FILES:=$(PKG_BUILD_DIR)/ipq806x/qca-nss-gmac.ko
+  FILES:=$(PKG_BUILD_DIR)/ipq807x/qca-nss-gmac.ko
   AUTOLOAD:=$(call AutoLoad,31,qca-nss-gmac)
 endef
 
