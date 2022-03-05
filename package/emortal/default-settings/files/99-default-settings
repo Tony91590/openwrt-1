@@ -9,7 +9,20 @@ uci set system.led_wan.mode='link'
 uci set system.led_lan.mode='link'
 uci commit system
 
+uci set fstab.@global[0].anon_mount=1
+uci commit fstab
+
+rm -f /www/luci-static/resources/view/status/include/50_dsl.js
+rm -f /www/luci-static/resources/view/status/include/70_ddns.js
+rm -f /www/luci-static/resources/view/status/include/80_minidlna.js
+rm -f /www/luci-static/resources/view/status/include/80_upnp.js
+
+ln -sf /sbin/ip /usr/bin/ip
+
 sed -i '/log-facility/d' /etc/dnsmasq.conf
 echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
+
+rm -rf /tmp/luci-modulecache/
+rm -f /tmp/luci-indexcache
 
 exit 0

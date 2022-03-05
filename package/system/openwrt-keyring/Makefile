@@ -6,10 +6,10 @@ PKG_NAME:=openwrt-keyring
 PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL=$(PROJECT_GIT)/keyring.git
-PKG_SOURCE_DATE:=2021-02-20
-PKG_SOURCE_VERSION:=49283916005d7868923d34ab34f14188cf74812d
-PKG_MIRROR_HASH:=7b58592bb49e4b37c8e80904c8f457ce3f0f2e6b1d2c473ccfe9204a8b7be831
+PKG_SOURCE_URL=https://github.com/immortalwrt/keyring.git
+PKG_SOURCE_DATE:=2021-11-13
+PKG_SOURCE_VERSION:=07d34f5cd9cc27aeaaa0c04358370ca1e9fbb0fc
+PKG_MIRROR_HASH:=302b6d5e54cadbd70b64c4b89503d2495850bd232882ea380c1d3745c4dc9b71
 
 PKG_MAINTAINER:=John Crispin <john@phrozen.org>
 PKG_LICENSE:=GPL-2.0
@@ -20,7 +20,7 @@ define Package/openwrt-keyring
   SECTION:=base
   CATEGORY:=Base system
   PROVIDES:=lede-keyring
-  TITLE:=OpenWrt Developer Keyring
+  TITLE:=ImmortalWrt Developer Keyring
   URL:=https://openwrt.org/docs/guide-user/security/signatures
 endef
 
@@ -32,8 +32,11 @@ Build/Compile=
 
 define Package/openwrt-keyring/install
 	$(INSTALL_DIR) $(1)/etc/opkg/keys/
+	# Public usign key for OPDE
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/usign/66ceb3e8f7432fed $(1)/etc/opkg/keys/
 	# Public usign key for unattended snapshot builds
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/usign/b5043e70f9a75cde $(1)/etc/opkg/keys/
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/usign/8ead5420c4005b0d $(1)/etc/opkg/keys/
 endef
 
 $(eval $(call BuildPackage,openwrt-keyring))

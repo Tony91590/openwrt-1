@@ -17,7 +17,7 @@ DEFAULT_PACKAGES:=\
 	fstools \
 	libc \
 	libgcc \
-	libustream-wolfssl \
+	libustream-openssl \
 	logd \
 	mtd \
 	netifd \
@@ -53,34 +53,22 @@ DEFAULT_PACKAGES.nas:=\
 	mdadm
 # For router targets
 DEFAULT_PACKAGES.router:=\
-        dnsmasq \
+	dnsmasq-full \
 	firewall \
-	ip6tables \
 	iptables \
-        iptables-mod-fullconenat \
-	odhcp6c \
-	odhcpd-ipv6only \
+	ipv6helper \
 	ppp \
 	ppp-mod-pppoe
 # For easy usage
 DEFAULT_PACKAGES.tweak:=\
 	block-mount \
-	coremark \
 	default-settings \
 	kmod-ipt-raw \
 	kmod-nf-nathelper \
 	kmod-nf-nathelper-extra \
-	kmod-batman-adv \
 	luci \
-	luci-app-qos \
-	luci-app-upnp \
-	luci-app-ttyd \
 	luci-app-cpufreq \
-	luci-app-turboacc_INCLUDE_OFFLOADING \
-        luci-app-turboacc_INCLUDE_SHORTCUT_FE \
-        luci-app-turboacc_INCLUDE_SHORTCUT_FE_DRV \
 	luci-app-turboacc \
-	luci-theme-argon \
 	luci-compat \
 	luci-lib-base \
 	luci-lib-fs \
