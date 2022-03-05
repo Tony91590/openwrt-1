@@ -58,7 +58,6 @@ DEFAULT_PACKAGES.router:=\
 	ip6tables \
 	iptables \
         iptables-mod-fullconenat \
-	kmod-macvlan \
 	odhcp6c \
 	odhcpd-ipv6only \
 	ppp \
