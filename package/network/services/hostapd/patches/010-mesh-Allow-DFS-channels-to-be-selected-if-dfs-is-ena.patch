@@ -1,17 +1,3 @@
-From 8de8cd8380af0c43d4fde67a668d79ef73b26b26 Mon Sep 17 00:00:00 2001
-From: Peter Oh <peter.oh@bowerswilkins.com>
-Date: Tue, 30 Jun 2020 14:18:58 +0200
-Subject: [PATCH 10/19] mesh: Allow DFS channels to be selected if dfs is
- enabled
-
-Note: DFS is assumed to be usable if a country code has been set
-
-Signed-off-by: Benjamin Berg <benjamin@sipsolutions.net>
-Signed-off-by: Peter Oh <peter.oh@bowerswilkins.com>
----
- wpa_supplicant/wpa_supplicant.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
-
 --- a/wpa_supplicant/wpa_supplicant.c
 +++ b/wpa_supplicant/wpa_supplicant.c
 @@ -2409,7 +2409,7 @@ static int drv_supports_vht(struct wpa_s
