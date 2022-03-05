@@ -9,11 +9,6 @@ uci set system.led_wan.mode='link'
 uci set system.led_lan.mode='link'
 uci commit system
 
-sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release
-echo "DISTRIB_REVISION='SNAPSHOT'" >> /etc/openwrt_release
-sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release
-echo "DISTRIB_DESCRIPTION='OpenWrt SNAPSHOT r19107-690514a3ab'" >> /etc/openwrt_release
-
 sed -i '/log-facility/d' /etc/dnsmasq.conf
 echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
 
