@@ -23,6 +23,7 @@ PKG_MAINTAINER:=Felix Fietkau <nbd@nbd.name>
 
 PKG_DRIVERS = \
 	adm8211 \
+	airo \
 	hermes hermes-pci hermes-pcmcia hermes-plx\
 	lib80211 \
 	mac80211-hwsim \
@@ -98,7 +99,7 @@ PKG_CONFIG_DEPENDS += \
 define KernelPackage/cfg80211
   $(call KernelPackage/mac80211/Default)
   TITLE:=cfg80211 - wireless configuration API
-  DEPENDS+= +iw +iwinfo +wireless-regdb +USE_RFKILL:kmod-rfkill
+  DEPENDS+= +iw +iwinfo +wireless-regdb
   ABI_VERSION:=$(PKG_VERSION)-$(PKG_RELEASE)
   FILES:= \
 	$(PKG_BUILD_DIR)/compat/compat.ko \
@@ -180,6 +181,18 @@ define KernelPackage/adm8211
   DEPENDS+=@PCI_SUPPORT +kmod-mac80211 +kmod-eeprom-93cx6
   FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/admtek/adm8211.ko
   AUTOLOAD:=$(call AutoProbe,adm8211)
+endef
+
+define KernelPackage/airo
+  $(call KernelPackage/mac80211/Default)
+  TITLE:=Cisco Aironet driver
+  DEPENDS+=@PCI_SUPPORT +@DRIVER_WEXT_SUPPORT +kmod-cfg80211 @TARGET_x86 @BROKEN
+  FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/cisco/airo.ko
+  AUTOLOAD:=$(call AutoProbe,airo)
+endef
+
+define KernelPackage/airo/description
+ Kernel support for Cisco Aironet cards
 endef
 
 define KernelPackage/hermes
@@ -402,6 +415,8 @@ endif
 
 config-$(call config_package,lib80211) += LIB80211 LIB80211_CRYPT_WEP LIB80211_CRYPT_CCMP LIB80211_CRYPT_TKIP
 
+config-$(call config_package,airo) += AIRO
+
 config-$(call config_package,mac80211-hwsim) += MAC80211_HWSIM
 config-$(call config_package,mt7601u) += MT7601U
 config-y += WL_MEDIATEK
@@ -428,15 +443,9 @@ config-$(call config_package,rsi91x-sdio) += RSI_SDIO
 
 config-$(CONFIG_LEDS_TRIGGERS) += MAC80211_LEDS
 
-C_DEFINES=
-
-ifeq ($(BUILD_VARIANT),smallbuffers)
-	C_DEFINES+= -DCONFIG_ATH10K_SMALLBUFFERS
-endif
-
 MAKE_OPTS:= -C "$(PKG_BUILD_DIR)" \
 	$(KERNEL_MAKE_FLAGS) \
-	EXTRA_CFLAGS="-I$(PKG_BUILD_DIR)/include $(IREMAP_CFLAGS) $(C_DEFINES) \
+	EXTRA_CFLAGS="-I$(PKG_BUILD_DIR)/include $(IREMAP_CFLAGS) \
 		      -I$(STAGING_DIR)/usr/include/qca-nss-drv" \
 	KLIB_BUILD="$(LINUX_DIR)" \
 	MODPROBE=true \
