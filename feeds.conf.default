@@ -1,5 +1,5 @@
-src-git packages https://github.com/Tony91590/test-1.git
-src-git luci https://github.com/Tony91590/immortal-luci.git
+src-git packages https://github.com/Tony91590/packages-immortalwrt.git;master-ax3600
+src-git luci https://github.com/Tony91590/luci-immortalwrt.git;master-ax3600
 src-git routing https://github.com/openwrt/routing.git
 src-git telephony https://github.com/openwrt/telephony.git
 #src-git nss_packages https://github.com/1715173329/nss-packages.git;nss-crypto
