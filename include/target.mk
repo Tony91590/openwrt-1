@@ -70,6 +70,7 @@ DEFAULT_PACKAGES.tweak:=\
 	luci-app-upnp \
 	luci-app-cpufreq \
 	luci-app-turboacc \
+	luci-theme-argon \
 	luci-compat \
 	luci-lib-base \
 	luci-lib-fs \
