@@ -19,13 +19,6 @@ rm -f /www/luci-static/resources/view/status/include/80_upnp.js
 
 ln -sf /sbin/ip /usr/bin/ip
 
-sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release
-echo "DISTRIB_REVISION='SNAPSHOT'" >> /etc/openwrt_release
-sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release
-echo "DISTRIB_DESCRIPTION='OpenWrt SNAPSHOT r19107-690514a3ab'" >> /etc/openwrt_release
-sed -i '/BUILD_ID/d' /etc/os-release
-echo "BUILD_ID='r19107-690514a3ab'" >> /etc/os-release
-
 sed -i '/log-facility/d' /etc/dnsmasq.conf
 echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
 
