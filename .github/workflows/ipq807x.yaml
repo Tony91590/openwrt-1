@@ -20,6 +20,8 @@ jobs:
                 echo "CONFIG_TARGET_ipq807x=y" > .config
                 echo "CONFIG_TARGET_ipq807x_generic=y" >> .config
                 echo "CONFIG_TARGET_ipq807x_generic_DEVICE_xiaomi_ax3600=y" >> .config
+                echo "CONFIG_PACKAGE_kmod-shortcut-fe=y" >> .config
+                echo "CONFIG_PACKAGE_kmod-shortcut-fe-drv=y" >> .config
                 echo "CONFIG_FSTOOLS_UBIFS_EXTROOT=n" >> .config
                 make defconfig
 
