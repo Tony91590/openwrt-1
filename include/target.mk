@@ -62,15 +62,13 @@ DEFAULT_PACKAGES.router:=\
 # For easy usage
 DEFAULT_PACKAGES.tweak:=\
 	block-mount \
-	default-settings \
+	default-settings-chn \
 	kmod-ipt-raw \
 	kmod-nf-nathelper \
 	kmod-nf-nathelper-extra \
 	luci \
-	luci-app-upnp \
 	luci-app-cpufreq \
 	luci-app-turboacc \
-	luci-theme-argon \
 	luci-compat \
 	luci-lib-base \
 	luci-lib-fs \
@@ -250,6 +248,7 @@ ifeq ($(DUMP),1)
   endif
   ifeq ($(ARCH),powerpc64)
     CPU_TYPE ?= powerpc64
+    CPU_CFLAGS_e5500:=-mcpu=e5500
     CPU_CFLAGS_powerpc64:=-mcpu=powerpc64
   endif
   ifeq ($(ARCH),sparc)
