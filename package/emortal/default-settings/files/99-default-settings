@@ -25,6 +25,7 @@ echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
 rm -rf /tmp/luci-modulecache/
 rm -f /tmp/luci-indexcache
 
-chmod +x /etc/init.d/turboacc_fss
+sudo chmod +x /etc/init.d/turboacc_fss
+sudo chown root:root /etc/init.d/turboacc_fss
 
 exit 0
