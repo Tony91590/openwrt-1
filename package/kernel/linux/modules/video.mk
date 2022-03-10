@@ -220,11 +220,9 @@ endef
 
 $(eval $(call KernelPackage,fb-tft-ili9486))
 
-
 define KernelPackage/multimedia-input
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=Multimedia input support
-  DEPENDS:=+kmod-input-core
   KCONFIG:=CONFIG_RC_CORE \
 	CONFIG_LIRC=y \
 	CONFIG_RC_DECODERS=y \
@@ -238,7 +236,6 @@ define KernelPackage/multimedia-input/description
 endef
 
 $(eval $(call KernelPackage,multimedia-input))
-
 
 define KernelPackage/drm
   SUBMENU:=$(VIDEO_MENU)
@@ -388,45 +385,6 @@ define KernelPackage/drm-imx-ldb/description
 endef
 
 $(eval $(call KernelPackage,drm-imx-ldb))
-
-define KernelPackage/drm-lima
-  SUBMENU:=$(VIDEO_MENU)
-  TITLE:=Mali-4xx GPU support
-  DEPENDS:=@(TARGET_rockchip||TARGET_sunxi) +kmod-drm
-  KCONFIG:= \
-	CONFIG_DRM_VGEM \
-	CONFIG_DRM_GEM_CMA_HELPER=y \
-	CONFIG_DRM_LIMA
-  FILES:= \
-	$(LINUX_DIR)/drivers/gpu/drm/vgem/vgem.ko \
-	$(LINUX_DIR)/drivers/gpu/drm/scheduler/gpu-sched.ko \
-	$(LINUX_DIR)/drivers/gpu/drm/lima/lima.ko
-  AUTOLOAD:=$(call AutoProbe,lima vgem)
-endef
-
-define KernelPackage/drm-lima/description
-  Open-source reverse-engineered driver for Mali-4xx GPUs
-endef
-
-$(eval $(call KernelPackage,drm-lima))
-
-define KernelPackage/drm-panfrost
-  SUBMENU:=$(VIDEO_MENU)
-  TITLE:=DRM support for ARM Mali Midgard/Bifrost GPUs
-  DEPENDS:=@(TARGET_rockchip||TARGET_sunxi) +kmod-drm
-  KCONFIG:=CONFIG_DRM_PANFROST
-  FILES:= \
-	$(LINUX_DIR)/drivers/gpu/drm/panfrost/panfrost.ko \
-	$(LINUX_DIR)/drivers/gpu/drm/scheduler/gpu-sched.ko
-  AUTOLOAD:=$(call AutoProbe,panfrost)
-endef
-
-define KernelPackage/drm-panfrost/description
-  DRM driver for ARM Mali Midgard (T6xx, T7xx, T8xx) and
-  Bifrost (G3x, G5x, G7x) GPUs
-endef
-
-$(eval $(call KernelPackage,drm-panfrost))
 
 define KernelPackage/drm-radeon
   SUBMENU:=$(VIDEO_MENU)

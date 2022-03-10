@@ -198,6 +198,7 @@ _procd_add_jail() {
 		netns)	json_add_boolean "netns" "1";;
 		userns)	json_add_boolean "userns" "1";;
 		cgroupsns)	json_add_boolean "cgroupsns" "1";;
+		console)	json_add_boolean "console" "1";;
 		esac
 	done
 	json_add_object "mount"
@@ -363,15 +364,14 @@ _procd_add_mount_trigger() {
 }
 
 _procd_add_action_mount_trigger() {
-	local action="$1"
-	shift
-	local mountpoints="$(procd_get_mountpoints "$@")"
-	[ "${mountpoints//[[:space:]]}" ] || return 0
 	local script=$(readlink "$initscript")
 	local name=$(basename ${script:-$initscript})
+	local action="$1"
+	local mpath
+	shift
 
 	_procd_open_trigger
-	_procd_add_mount_trigger mount.add $action "$mountpoints"
+	_procd_add_mount_trigger mount.add $action "$@"
 	_procd_close_trigger
 }
 
@@ -385,7 +385,7 @@ procd_get_mountpoints() {
 			target="${target%%/}/"
 			[ "$path" != "${path##$target}" ] && echo "${target%%/}"
 		}
-		local mpath
+
 		config_load fstab
 		for mpath in "$@"; do
 			config_foreach __procd_check_mount mount "$mpath"
@@ -394,11 +394,15 @@ procd_get_mountpoints() {
 }
 
 _procd_add_restart_mount_trigger() {
-	_procd_add_action_mount_trigger restart "$@"
+	local mountpoints="$(procd_get_mountpoints "$@")"
+	[ "${mountpoints//[[:space:]]}" ] &&
+		_procd_add_action_mount_trigger restart $mountpoints
 }
 
 _procd_add_reload_mount_trigger() {
-	_procd_add_action_mount_trigger reload "$@"
+	local mountpoints="$(procd_get_mountpoints "$@")"
+	[ "${mountpoints//[[:space:]]}" ] &&
+		_procd_add_action_mount_trigger reload $mountpoints
 }
 
 _procd_add_raw_trigger() {
@@ -635,7 +639,6 @@ _procd_wrapper \
 	procd_add_mount_trigger \
 	procd_add_reload_trigger \
 	procd_add_reload_interface_trigger \
-	procd_add_action_mount_trigger \
 	procd_add_reload_mount_trigger \
 	procd_add_restart_mount_trigger \
 	procd_open_trigger \

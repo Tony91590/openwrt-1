@@ -243,14 +243,14 @@ menu "Target Images"
 	config GRUB_TIMEOUT
 		string "Seconds to wait before booting the default entry"
 		depends on GRUB_IMAGES || GRUB_EFI_IMAGES
-		default "5"
+		default "3"
 		help
 		  If you don't know, 5 seconds is a reasonable default.
 
 	config GRUB_TITLE
 		string "Title for the menu entry in GRUB"
 		depends on GRUB_IMAGES || GRUB_EFI_IMAGES
-		default "OpenWrt"
+		default "ImmortalWrt"
 		help
 		  This is the title of the GRUB menu entry.
 		  If unspecified, it defaults to OpenWrt.
@@ -296,8 +296,8 @@ menu "Target Images"
 
 	config TARGET_ROOTFS_PARTSIZE
 		int "Root filesystem partition size (in MiB)"
-		depends on USES_ROOTFS_PART || TARGET_ROOTFS_EXT4FS
-		default 104
+		depends on USES_ROOTFS_PART || TARGET_ROOTFS_EXT4FS || TARGET_omap || TARGET_sunxi || TARGET_uml
+		default 160
 		help
 		  Select the root filesystem partition size.
 

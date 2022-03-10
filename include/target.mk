@@ -67,10 +67,8 @@ DEFAULT_PACKAGES.tweak:=\
 	kmod-nf-nathelper \
 	kmod-nf-nathelper-extra \
 	luci \
-	luci-app-upnp \
 	luci-app-cpufreq \
 	luci-app-turboacc \
-	luci-theme-argon \
 	luci-compat \
 	luci-lib-base \
 	luci-lib-fs \
@@ -249,8 +247,7 @@ ifeq ($(DUMP),1)
     CPU_CFLAGS_464fp:=-mcpu=464fp
   endif
   ifeq ($(ARCH),powerpc64)
-    CPU_TYPE ?= powerpc64 
-    CPU_CFLAGS_e5500:=-mcpu=e5500
+    CPU_TYPE ?= powerpc64
     CPU_CFLAGS_powerpc64:=-mcpu=powerpc64
   endif
   ifeq ($(ARCH),sparc)
