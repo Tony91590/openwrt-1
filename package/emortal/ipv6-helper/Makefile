@@ -22,7 +22,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/ipv6helper
 	SECTION:=ipv6
 	TITLE:=IPv6 Helper and Dynamic Update he.net of ip
-	DEPENDS:=+luci-proto-ipv6 +wget-ssl +libip6tc +ip6tables-legacy +ip6tables-mod-nat \
+	DEPENDS:=+luci-proto-ipv6 +wget-ssl +libip6tc +ip6tables +ip6tables-mod-nat \
 		+kmod-ipt-nat6 +kmod-nf-nat6 +odhcpd-ipv6only +odhcp6c +6in4
 	PKGARCH:=all
 endef
