@@ -238,7 +238,8 @@ foreach my $mirror (@ARGV) {
 		push @mirrors, "http://mirror.internode.on.net/pub/gnu/$1";
 		push @mirrors, "http://mirror.navercorp.com/gnu/$1";
 		push @mirrors, "ftp://mirrors.rit.edu/gnu/$1";
-		push @mirrors, "ftp://download.xs4all.nl/pub/gnu/";
+		push @mirrors, "ftp://download.xs4all.nl/pub/gnu/$1";
+		push @mirrors, "https://ftp.gnu.org/gnu/$1";
 	} elsif ($mirror =~ /^\@SAVANNAH\/(.+)$/) {
 		push @mirrors, "https://mirror.netcologne.de/savannah/$1";
 		push @mirrors, "https://mirror.csclub.uwaterloo.ca/nongnu/$1";
@@ -255,7 +256,6 @@ foreach my $mirror (@ARGV) {
 			push @extra, "$extra[0]/longterm/v$1";
 		}
 		foreach my $dir (@extra) {
-			# push @mirrors, "https://mirrors.cqu.edu.cn/kernel/$dir";
 			# push @mirrors, "https://mirrors.ustc.edu.cn/kernel.org/$dir";
 			push @mirrors, "https://cdn.kernel.org/pub/$dir";
 			push @mirrors, "https://download.xs4all.nl/ftp.kernel.org/pub/$dir";
