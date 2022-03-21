@@ -67,4 +67,3 @@ case $DEVICENAME in
                 exit
                 ;;
 esac
-
