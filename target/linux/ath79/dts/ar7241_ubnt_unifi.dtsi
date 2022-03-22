@@ -45,3 +45,4 @@
 
 	mtd-mac-address = <&art 0x0>;
 };
+

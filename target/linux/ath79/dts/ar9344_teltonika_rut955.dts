@@ -163,16 +163,14 @@
 
 	phy-handle = <&swphy4>;
 
-	nvmem-cells = <&macaddr_config_0>;
-	nvmem-cell-names = "mac-address";
-	mac-address-increment = <1>;
+	mtd-mac-address = <&config 0x0>;
+	mtd-mac-address-increment = <1>;
 };
 
 &eth1 {
 	status = "okay";
 
-	nvmem-cells = <&macaddr_config_0>;
-	nvmem-cell-names = "mac-address";
+	mtd-mac-address = <&config 0x0>;
 };
 
 &builtin_switch {
@@ -186,15 +184,5 @@
 		pinctrl-single,bits = <0x4 0x0a 0xff>,
 					<0xc 0x0b 0xff>,
 					<0x14 0x08 0xff>;
-	};
-};
-
-&config {
-	compatible = "nvmem-cells";
-	#address-cells = <1>;
-	#size-cells = <1>;
-
-	macaddr_config_0: macaddr@0 {
-		reg = <0x0 0x6>;
 	};
 };
