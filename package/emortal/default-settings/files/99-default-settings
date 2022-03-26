@@ -27,19 +27,4 @@ rm -f /tmp/luci-indexcache
 
 chmod +x /etc/init.d/turboacc_fss
 
-echo '#!/bin/ash' > /tmp/wifi_transition_workaround.sh
-echo 'function flush() {' >> /tmp/wifi_transition_workaround.sh
-echo 'ssdk_sh fdb entry flush 1' >> /tmp/wifi_transition_workaround.sh
-echo '}' >> /tmp/wifi_transition_workaround.sh
-echo "IFS=$'\n'" >> /tmp/wifi_transition_workaround.sh
-echo 'logread -f | while read line; do'  >> /tmp/wifi_transition_workaround.sh
-echo 'if [[ "$line" == *"AP-STA-"* ]]; then' >> /tmp/wifi_transition_workaround.sh
-echo 'flush </dev/null >/dev/null 2>&1' >> /tmp/wifi_transition_workaround.sh
-echo 'fi'  >> /tmp/wifi_transition_workaround.sh
-echo 'done'  >> /tmp/wifi_transition_workaround.sh
-echo 'exit 0'  >> /tmp/wifi_transition_workaround.sh
-chmod 777 /tmp/wifi_transition_workaround.sh
-
- /tmp/wifi_transition_workaround.sh &
-
 exit 0
