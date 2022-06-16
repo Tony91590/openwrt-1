@@ -1,4 +1,4 @@
-src-git packages https://github.com/Tony91590/packages-immortalwrt.git;clock
+src-git packages https://github.com/Tony91590/packages-immortalwrt.git;cloc
 src-git luci https://github.com/Tony91590/luci-immortalwrt.git;Master
 src-git routing https://github.com/openwrt/routing.git
 src-git telephony https://github.com/openwrt/telephony.git
