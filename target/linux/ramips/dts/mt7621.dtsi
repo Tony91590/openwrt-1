@@ -438,6 +438,23 @@
 		clock-names = "nfi_clk";
 	};
 
+	crypto@1e004000 {
+		status = "okay";
+
+		compatible = "mediatek,mtk-eip93";
+		reg = <0x1e004000 0x1000>;
+
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SHARED 19 IRQ_TYPE_LEVEL_HIGH>;
+	};
+
+	ethsys: syscon@1e000000 {
+		compatible = "mediatek,mt7621-ethsys",
+			     "syscon";
+		reg = <0x1e000000 0x1000>;
+		#clock-cells = <1>;
+	};
+
 	ethernet: ethernet@1e100000 {
 		compatible = "mediatek,mt7621-eth";
 		reg = <0x1e100000 0x10000>;
@@ -454,7 +471,10 @@
 		interrupt-parent = <&gic>;
 		interrupts = <GIC_SHARED 3 IRQ_TYPE_LEVEL_HIGH>;
 
-		mediatek,ethsys = <&sysc>;
+		mediatek,ethsys = <&ethsys>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&mdio_pins>, <&rgmii1_pins>, <&rgmii2_pins>;
 
 		gmac0: mac@0 {
 			compatible = "mediatek,eth-mac";
@@ -481,8 +501,6 @@
 
 			switch0: switch@1f {
 				compatible = "mediatek,mt7621";
-				#address-cells = <1>;
-				#size-cells = <0>;
 				reg = <0x1f>;
 				mediatek,mcm;
 				resets = <&rstctrl 2>;
@@ -491,7 +509,6 @@
 				ports {
 					#address-cells = <1>;
 					#size-cells = <0>;
-					reg = <0>;
 
 					port@0 {
 						status = "disabled";
@@ -532,11 +549,19 @@
 						fixed-link {
 							speed = <1000>;
 							full-duplex;
+							pause;
 						};
 					};
 				};
 			};
 		};
+	};
+
+	gsw: gsw@1e110000 {
+		compatible = "mediatek,mt7621-gsw";
+		reg = <0x1e110000 0x8000>;
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SHARED 23 IRQ_TYPE_LEVEL_HIGH>;
 	};
 
 	pcie: pcie@1e140000 {
