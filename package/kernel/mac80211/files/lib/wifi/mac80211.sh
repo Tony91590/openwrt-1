@@ -174,9 +174,9 @@ detect_mac80211() {
 			set wireless.radio${devidx}.channel=auto
 			set wireless.radio${devidx}.band=${mode_band}
 			set wireless.radio${devidx}.htmode=$htmode
-			set wireless.radio1.htmode=HE160
+			set wireless.radio0.htmode=HE160
 		        set wireless.radio1.he_su_beamformee=1
-			set wireless.radio2.he_su_beamformee=1
+			set wireless.radio0.he_su_beamformee=1
 			set wireless.radio${devidx}.disabled=0
 			set wireless.radio${devidx}.country=FR
 			
@@ -184,8 +184,8 @@ detect_mac80211() {
 			set wireless.default_radio${devidx}.device=radio${devidx}
 			set wireless.default_radio${devidx}.network=lan
 			set wireless.default_radio${devidx}.mode=ap
-			set wireless.default_radio2.ssid=Tenda_4BA290
-			set wireless.default_radio1.ssid=Tenda_4BA290_5G
+			set wireless.default_radio1.ssid=Tenda_4BA290
+			set wireless.default_radio0.ssid=Tenda_4BA290_5G
 			set wireless.default_radio${devidx}.encryption=psk2
 			set wireless.default_radio${devidx}.key=bettyboop
 EOF
