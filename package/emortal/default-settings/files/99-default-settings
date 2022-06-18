@@ -13,7 +13,7 @@ uci set fstab.@global[0].anon_mount=1
 uci commit fstab
 
 uci set network.lan.stp='1'
-uci commit
+uci commit network
 
 rm -f /www/luci-static/resources/view/status/include/50_dsl.js
 rm -f /www/luci-static/resources/view/status/include/70_ddns.js
