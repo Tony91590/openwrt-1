@@ -12,8 +12,12 @@ uci commit system
 uci set fstab.@global[0].anon_mount=1
 uci commit fstab
 
-uci set network.lan.stp='1'
-uci commit network
+chmod +x /etc/init.d/turboacc
+chmod +x /etc/init.d/turboacc_fss
+chmod +x /etc/init.d/turboacc_nss
+chmod +x /etc/init.d/turboacc_ecm
+/etc/init.d/turboacc_nss start
+/etc/init.d/turboacc_ecm start
 
 rm -f /www/luci-static/resources/view/status/include/50_dsl.js
 rm -f /www/luci-static/resources/view/status/include/70_ddns.js
@@ -27,7 +31,5 @@ echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
 
 rm -rf /tmp/luci-modulecache/
 rm -f /tmp/luci-indexcache
-
-chmod +x /etc/init.d/turboacc_fss
 
 exit 0
