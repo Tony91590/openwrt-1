@@ -43,7 +43,7 @@ enable_rps() {
 
 
 start() {
-	local rps_enabled="$(uci get nss.@general[0].enable_rps)"
+	local rps_enabled="$(uci_get nss @general[0] enable_rps)"
 	if [ "$rps_enabled" -eq 1 ]; then
 		enable_rps
 	fi
